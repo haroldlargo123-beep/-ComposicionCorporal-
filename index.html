@@ -1,0 +1,1871 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Composición Corporal & Somatotipo</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=DM+Mono:wght@400;500&display=swap');
+  *{box-sizing:border-box;margin:0;padding:0}
+  :root{
+    --blue:#1D4ED8;--blue-light:#3B82F6;--blue-bg:#EFF6FF;
+    --green:#16A34A;--green-bg:#F0FDF4;
+    --red:#DC2626;--orange:#EA580C;
+    --slate-50:#F8FAFC;--slate-100:#F1F5F9;--slate-200:#E2E8F0;
+    --slate-300:#CBD5E1;--slate-400:#94A3B8;--slate-500:#64748B;
+    --slate-600:#475569;--slate-700:#334155;--slate-800:#1E293B;
+    --radius:12px;--radius-sm:8px;
+    --shadow:0 1px 4px rgba(0,0,0,.06),0 4px 16px rgba(0,0,0,.04);
+    --admin:#7C3AED;
+  }
+  body{font-family:'DM Sans',system-ui,sans-serif;background:#EEF2F7;min-height:100vh;color:var(--slate-800)}
+  h2{font-size:.95rem;font-weight:700;color:var(--slate-700);border-bottom:1.5px solid var(--slate-200);padding-bottom:.6rem;margin-bottom:1rem}
+  .wrap{max-width:960px;margin:0 auto;padding:1rem 1rem 3rem}
+  .hdr{background:linear-gradient(135deg,#0F1D3A 0%,#1A3A8F 100%);color:#fff;padding:1.4rem 2rem;border-radius:0 0 20px 20px;display:flex;align-items:center;justify-content:space-between;gap:1rem;margin-bottom:1.5rem;flex-wrap:wrap}
+  .hdr-left{display:flex;align-items:center;gap:1rem}
+  .hdr-title h1{font-size:1.3rem;letter-spacing:-.3px;font-weight:700}
+  .hdr-title p{opacity:.65;font-size:.78rem;margin-top:2px}
+  .card{background:#fff;border-radius:var(--radius);padding:1.25rem 1.5rem;margin-bottom:1rem;border:1px solid #E8EDF5;box-shadow:var(--shadow)}
+  .grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:.75rem}
+  .grid3{display:grid;grid-template-columns:repeat(auto-fit,minmax(145px,1fr));gap:.75rem}
+  label{display:block;font-size:.7rem;font-weight:600;color:var(--slate-500);text-transform:uppercase;letter-spacing:.4px;margin-bottom:.35rem}
+  input[type=text],input[type=number],input[type=date],input[type=url],input[type=password],select{width:100%;padding:.55rem .75rem;border:1.5px solid var(--slate-200);border-radius:var(--radius-sm);font-size:.88rem;font-family:inherit;outline:none;transition:border .15s,box-shadow .15s;background:#FAFBFE}
+  input:focus,select:focus{border-color:var(--blue-light);background:#fff;box-shadow:0 0 0 3px rgba(59,130,246,.1)}
+  .tabs{display:flex;gap:.25rem;margin-bottom:1rem;border-bottom:2px solid #E8EDF5;flex-wrap:wrap}
+  .tab{padding:.55rem 1rem;border:none;cursor:pointer;border-radius:8px 8px 0 0;font-size:.82rem;font-weight:500;background:transparent;color:var(--slate-400);transition:all .15s;font-family:inherit}
+  .tab.active{background:var(--blue-light);color:#fff;font-weight:600}
+  table{width:100%;border-collapse:collapse;font-size:.83rem}
+  thead th{padding:.55rem .75rem;border:1px solid #E8EDF5;font-weight:600;color:var(--slate-500);background:var(--slate-50);text-align:center}
+  thead th:first-child{text-align:left}
+  tbody td{padding:.4rem .6rem;border:1px solid #EEF2F7;text-align:center}
+  tbody td:first-child{text-align:left;color:var(--slate-800);font-weight:500}
+  tbody tr:hover{background:var(--slate-50)}
+  .avg-cell{background:var(--blue-bg);color:#2563EB;font-weight:700;font-family:'DM Mono',monospace}
+  .hi-row{background:#FFFBEB}
+  input.toma{width:68px;padding:.45rem .5rem;border:1.5px solid var(--slate-300);border-radius:6px;text-align:center;font-size:.82rem;outline:none;font-family:'DM Mono',monospace}
+  input.toma:focus{border-color:var(--blue-light)}
+  .rbox{background:var(--slate-50);border-radius:10px;padding:.9rem 1rem;border:1px solid #E8EDF5}
+  .rbox .lbl{font-size:.68rem;color:#6B7280;font-weight:600;text-transform:uppercase;letter-spacing:.4px}
+  .rbox .val{font-size:1.4rem;font-weight:700;margin-top:.2rem;font-family:'DM Mono',monospace}
+  .rbox .sub{font-size:.68rem;color:var(--slate-400);margin-top:.15rem}
+  .bar-wrap{height:32px;border-radius:8px;overflow:hidden;display:flex;gap:1px;margin:.75rem 0 .5rem}
+  .bar-seg{display:flex;align-items:center;justify-content:center;color:#fff;font-size:.7rem;font-weight:700;transition:width .6s}
+  .legend-dots{display:flex;gap:1rem;flex-wrap:wrap}
+  .legend-dot{display:flex;align-items:center;gap:.35rem;font-size:.75rem;color:var(--slate-700)}
+  .dot{width:11px;height:11px;border-radius:3px}
+  .soma-tag{padding:1rem 1.25rem;border-radius:10px;border:1.5px solid;display:flex;gap:.75rem;align-items:flex-start;margin-top:.75rem}
+  .soma-tag .icon{font-size:1.6rem;line-height:1}
+  .soma-tag .nm{font-size:1.1rem;font-weight:700;margin-bottom:.25rem}
+  .soma-tag .txt{font-size:.82rem;line-height:1.55;opacity:.85}
+  .info-cards{display:flex;flex-direction:column;gap:.65rem}
+  .ic{padding:.85rem 1rem;border-radius:10px;background:#FAFBFE;border:1px solid #E8EDF5;border-left:3px solid}
+  .ic .ic-title{font-size:.75rem;font-weight:700;color:var(--slate-800);margin-bottom:.3rem}
+  .ic .ic-txt{font-size:.78rem;color:var(--slate-600);line-height:1.55}
+  .soma-row{display:flex;gap:1.25rem;flex-wrap:wrap;align-items:flex-start}
+  .soma-canvas{flex:1 1 360px}
+  canvas{border-radius:10px;border:1px solid var(--slate-200);background:#FAFAFA;width:100%;height:auto}
+  /* ── BUTTONS ── */
+  .btn{display:inline-flex;align-items:center;gap:.4rem;padding:.6rem 1.25rem;border:none;border-radius:var(--radius-sm);cursor:pointer;font-size:.85rem;font-weight:600;font-family:inherit;transition:all .15s;text-decoration:none;line-height:1}
+  .btn:disabled{opacity:.55;cursor:not-allowed;transform:none!important}
+  .btn:not(:disabled):active{transform:scale(.97)}
+  .btn-primary{background:var(--blue-light);color:#fff}
+  .btn-primary:not(:disabled):hover{background:#2563EB;box-shadow:0 2px 8px rgba(59,130,246,.35)}
+  .btn-green{background:var(--green);color:#fff}
+  .btn-green:not(:disabled):hover{background:#15803D;box-shadow:0 2px 8px rgba(22,163,74,.3)}
+  .btn-sync{background:#0EA5E9;color:#fff}
+  .btn-sync:not(:disabled):hover{background:#0284C7;box-shadow:0 2px 8px rgba(14,165,233,.3)}
+  .btn-outline{background:transparent;border:1.5px solid var(--slate-300);color:var(--slate-700)}
+  .btn-outline:not(:disabled):hover{background:var(--slate-100)}
+  .btn-admin{background:var(--admin);color:#fff}
+  .btn-admin:not(:disabled):hover{background:#6D28D9;box-shadow:0 2px 8px rgba(124,58,237,.3)}
+  .btn-danger{background:#DC2626;color:#fff}
+  .btn-danger:not(:disabled):hover{background:#B91C1C}
+  .btn-warn{background:#D97706;color:#fff}
+  .btn-warn:not(:disabled):hover{background:#B45309}
+  .btn-sm{padding:.4rem .9rem;font-size:.78rem}
+  .btn-icon{padding:.45rem .65rem}
+  .btn-group{display:flex;gap:.5rem;flex-wrap:wrap;align-items:center}
+  /* ── ALERTS ── */
+  .alert{padding:.65rem 1rem;border-radius:var(--radius-sm);font-size:.82rem;display:flex;align-items:flex-start;gap:.5rem;margin-top:.5rem}
+  .alert-ok{background:#F0FDF4;color:#166534;border:1px solid #BBF7D0}
+  .alert-err{background:#FEF2F2;color:#DC2626;border:1px solid #FECACA}
+  .alert-info{background:var(--blue-bg);color:#1D4ED8;border:1px solid #BFDBFE}
+  .alert-warn{background:#FFFBEB;color:#92400E;border:1px solid #FDE68A}
+  /* ── SYNC INDICATOR ── */
+  .sync-pill{display:inline-flex;align-items:center;gap:.4rem;font-size:.75rem;font-weight:600;padding:.3rem .75rem;border-radius:20px;transition:all .3s}
+  .sync-idle{background:rgba(255,255,255,.15);color:rgba(255,255,255,.7);border:1px solid rgba(255,255,255,.2)}
+  .sync-ok{background:rgba(34,197,94,.2);color:#4ADE80;border:1px solid rgba(34,197,94,.3)}
+  .sync-err{background:rgba(239,68,68,.2);color:#FCA5A5;border:1px solid rgba(239,68,68,.3)}
+  .sync-busy{background:rgba(251,191,36,.2);color:#FCD34D;border:1px solid rgba(251,191,36,.3)}
+  .dot-pulse{width:7px;height:7px;border-radius:50%;background:currentColor;animation:dp 1.1s ease-in-out infinite}
+  @keyframes dp{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.35;transform:scale(.6)}}
+  /* ── ADMIN MODAL ── */
+  .overlay{display:none;position:fixed;inset:0;background:rgba(15,23,42,.6);backdrop-filter:blur(3px);z-index:100;align-items:center;justify-content:center;padding:1rem}
+  .overlay.open{display:flex}
+  .modal{background:#fff;border-radius:16px;width:100%;max-width:900px;max-height:90vh;overflow:hidden;display:flex;flex-direction:column;box-shadow:0 24px 64px rgba(0,0,0,.22)}
+  .modal-sm{max-width:480px}
+  .modal-hdr{padding:1.25rem 1.5rem;display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-shrink:0}
+  .modal-hdr.purple{background:linear-gradient(135deg,var(--admin),#4F46E5);color:#fff}
+  .modal-hdr.dark{background:var(--slate-800);color:#fff}
+  .modal-hdr h3{font-size:1rem;font-weight:700}
+  .modal-hdr p{font-size:.75rem;opacity:.7;margin-top:.15rem}
+  .modal-body{padding:1.25rem 1.5rem;overflow-y:auto;flex:1}
+  .close-btn{background:rgba(255,255,255,.18);border:none;color:#fff;width:30px;height:30px;border-radius:7px;cursor:pointer;font-size:1rem;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:background .15s}
+  .close-btn:hover{background:rgba(255,255,255,.3)}
+  /* ── ADMIN TABS ── */
+  .admin-tabs{display:flex;gap:.35rem;margin-bottom:1.25rem;flex-wrap:wrap}
+  .atab{padding:.5rem 1rem;border:1.5px solid var(--slate-200);border-radius:var(--radius-sm);cursor:pointer;font-size:.82rem;font-weight:600;background:transparent;color:var(--slate-600);transition:all .15s;font-family:inherit}
+  .atab.active{background:var(--admin);color:#fff;border-color:var(--admin)}
+  .apanel{display:none}.apanel.active{display:block}
+  /* ── URL BOX ── */
+  .url-box{background:var(--slate-50);border:1px solid var(--slate-200);border-radius:10px;padding:1rem}
+  .url-val{font-family:'DM Mono',monospace;font-size:.75rem;color:var(--admin);word-break:break-all;margin-top:.35rem;min-height:1.1em}
+  /* ── RECORDS ── */
+  .rtable-wrap{overflow-x:auto;border-radius:8px;border:1px solid var(--slate-200);margin-top:.75rem}
+  .rtable{width:100%;border-collapse:collapse;font-size:.78rem;white-space:nowrap}
+  .rtable th{padding:.5rem .75rem;background:var(--slate-50);border-bottom:1px solid var(--slate-200);font-weight:700;color:var(--slate-600);text-align:left;position:sticky;top:0;z-index:1}
+  .rtable td{padding:.45rem .75rem;border-bottom:1px solid #EEF2F7;color:var(--slate-700)}
+  .rtable tr:last-child td{border-bottom:none}
+  .rtable tr:hover td{background:var(--blue-bg)}
+  .empty{text-align:center;padding:2rem 1rem;color:var(--slate-400);font-size:.85rem}
+  /* ── EDIT FORM ── */
+  .edit-grid{display:grid;grid-template-columns:1fr 1fr;gap:.75rem}
+  .ef{display:flex;flex-direction:column;gap:.25rem}
+  .ef label{font-size:.68rem;font-weight:700;color:var(--slate-500);text-transform:uppercase;letter-spacing:.4px}
+  .ef input,.ef select{padding:.5rem .75rem;border:1.5px solid var(--slate-200);border-radius:var(--radius-sm);font-size:.84rem;font-family:inherit;outline:none;transition:border .15s;width:100%}
+  .ef input:focus,.ef select:focus{border-color:var(--admin)}
+  .ef .unit{font-size:.67rem;color:var(--slate-400)}
+  .modal-footer{padding:1rem 1.5rem;border-top:1px solid var(--slate-200);display:flex;gap:.5rem;justify-content:flex-end;flex-shrink:0;background:#fff}
+  /* ── CONFIRM ── */
+  .confirm-box{background:#fff;border-radius:14px;padding:2rem 1.5rem;max-width:360px;width:90%;text-align:center;box-shadow:0 20px 60px rgba(0,0,0,.25)}
+  .confirm-box h4{font-size:1rem;font-weight:700;margin-bottom:.4rem}
+  .confirm-box p{font-size:.84rem;color:var(--slate-600);margin-bottom:1.5rem;line-height:1.6}
+  /* ── UNITS TABLE ── */
+  .utable{width:100%;border-collapse:collapse;font-size:.82rem}
+  .utable th{padding:.6rem .75rem;background:var(--blue-bg);color:var(--blue);font-weight:700;text-align:left;border-bottom:2px solid #BFDBFE}
+  .utable td{padding:.5rem .75rem;border-bottom:1px solid #EEF2F7}
+  .utable tr:last-child td{border-bottom:none}
+  .utable .cat td{background:var(--slate-50);font-weight:700;font-size:.7rem;text-transform:uppercase;letter-spacing:.5px;color:var(--slate-500);padding:.35rem .75rem}
+  .ubadge{display:inline-block;padding:.15rem .5rem;border-radius:4px;font-family:'DM Mono',monospace;font-size:.72rem;font-weight:600}
+  .ub-mm{background:#EFF6FF;color:#1D4ED8}
+  .ub-cm{background:#F0FDF4;color:#15803D}
+  .ub-kg{background:#FEF2F2;color:#B91C1C}
+  .ub-pct{background:#FFF7ED;color:#92400E}
+  .ub-yr{background:#F5F3FF;color:#6D28D9}
+  /* ── MISC ── */
+  .setup-box{margin-top:1rem;background:var(--slate-50);border-radius:10px;padding:1.25rem;border:1px solid var(--slate-200);font-size:.82rem}
+  .setup-box ol{padding-left:1.2rem;line-height:2.2;color:var(--slate-700)}
+  .setup-box a{color:#2563EB}
+  pre{background:#1E293B;color:#E2E8F0;padding:.85rem 1rem;border-radius:8px;font-size:.72rem;overflow-x:auto;line-height:1.6;margin:.5rem 0;font-family:'DM Mono',monospace}
+  .note{font-size:.7rem;color:var(--slate-400);margin-top:.5rem}
+  .soma-vals{text-align:center;font-size:1.45rem;font-weight:700;letter-spacing:2px;padding:.75rem;background:var(--blue-bg);border-radius:8px;margin-top:.65rem;color:var(--slate-800);font-family:'DM Mono',monospace}
+  .soma-vals span{font-size:.7rem;font-weight:400;display:block;letter-spacing:0;color:#6B7280;margin-top:.2rem}
+  .badge{display:inline-block;padding:.12rem .5rem;border-radius:4px;font-size:.7rem;font-weight:700}
+  .badge-b{background:var(--blue-bg);color:var(--blue)}
+  .badge-g{background:#F0FDF4;color:#16A34A}
+  .badge-r{background:#FEF2F2;color:#DC2626}
+  .hidden{display:none!important}
+  .spinner{display:inline-block;width:13px;height:13px;border:2px solid rgba(255,255,255,.35);border-top-color:#fff;border-radius:50%;animation:spin .7s linear infinite;flex-shrink:0}
+  @keyframes spin{to{transform:rotate(360deg)}}
+  .sep{height:1px;background:var(--slate-200);margin:.9rem 0}
+  @media(max-width:600px){
+    .wrap{padding:.75rem .75rem 2rem}
+    .hdr{border-radius:0 0 16px 16px;padding:1rem}
+    .edit-grid{grid-template-columns:1fr}
+    .modal{max-height:95vh}
+  }
+  @media print{
+    body{background:#fff!important}
+    .hdr{border-radius:0!important;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+    .btn,.btn-group,.tabs,.tab,#btn-save,#btn-sync,#btn-print,#btn-instrucciones,
+    #setup-box,.overlay,.sync-pill button,button{display:none!important}
+    .sync-pill{display:none!important}
+    .card{box-shadow:none!important;border:1px solid #ccc!important;break-inside:avoid;margin-bottom:.6rem}
+    .wrap{max-width:100%;padding:.5rem}
+    .bar-wrap{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+    canvas{max-width:340px}
+    h2{font-size:.85rem}
+    .rbox .val{font-size:1.1rem}
+    #bar-section{break-inside:avoid}
+    .soma-row{flex-direction:column}
+    .info-cards{display:none}
+    input[type=text],input[type=number],input[type=date],select,input.toma{
+      border:none!important;background:transparent!important;padding:0!important;font-weight:600
+    }
+    .avg-cell{background:transparent!important}
+    @page{margin:1.2cm;size:A4}
+  }
+</style>
+</head>
+<body>
+
+<!-- ══ HEADER ══ -->
+<div class="hdr">
+  <div class="hdr-left">
+    <div id="hdr-logo" style="font-size:2rem;width:48px;height:48px;display:flex;align-items:center;justify-content:center;flex-shrink:0">🏋️</div>
+    <div class="hdr-title">
+      <h1>Composición Corporal & Somatotipo</h1>
+      <p>Faulkner · Yuhasz · Rocha · Carter-Heath · Somatocarta</p>
+    </div>
+  </div>
+  <div style="display:flex;align-items:center;gap:.6rem;flex-wrap:wrap">
+    <span id="sync-pill" class="sync-pill sync-idle">○ Sin verificar</span>
+    <button class="btn btn-admin" onclick="openAdmin()">🔐 Administrador</button>
+  </div>
+</div>
+
+<div class="wrap">
+
+<!-- ══ DATOS DEL EVALUADO ══ -->
+<div class="card">
+  <h2>👤 Datos del Evaluado</h2>
+  <div class="grid2">
+    <div><label>Nombre completo</label><input type="text" id="nombre" placeholder="Ej: Juan García" oninput="calc()"></div>
+    <div><label>Sexo</label><select id="sexo" onchange="calc()"><option value="masculino">Masculino</option><option value="femenino">Femenino</option></select></div>
+    <div><label>Edad <span class="badge badge-b">años</span></label><input type="number" id="edad" placeholder="25" min="5" max="100" oninput="calc()"></div>
+    <div><label>Fecha de evaluación</label><input type="date" id="fecha" oninput="calc()"></div>
+  </div>
+</div>
+
+<!-- ══ MEDIDAS ══ -->
+<div class="card">
+  <h2>📏 Medidas Antropométricas</h2>
+  <div class="tabs">
+    <button class="tab active" onclick="showTab('pliegues',this)">🤏 Pliegues Cutáneos</button>
+    <button class="tab" onclick="showTab('diametros',this)">📐 Diámetros</button>
+    <button class="tab" onclick="showTab('perimetros',this)">⚖️ Peso, Talla y Perímetros</button>
+  </div>
+
+  <div id="tab-pliegues">
+    <p style="font-size:.75rem;color:var(--slate-500);margin-bottom:.65rem">Valores en <strong>milímetros (mm)</strong>. Promedio calculado automáticamente.</p>
+    <div style="overflow-x:auto"><table>
+      <thead><tr><th style="min-width:190px">Medida</th><th>Unidad</th><th>Toma 1</th><th>Toma 2</th><th>Promedio</th></tr></thead>
+      <tbody id="tbody-pl">
+        <tr data-key="subescapular"><td>Subescapular <small style="color:#9CA3AF">Σ4+Σ6</small></td><td><span class="badge badge-b">mm</span></td><td><input class="toma" data-idx="0"></td><td><input class="toma" data-idx="1"></td><td class="avg-cell">—</td></tr>
+        <tr data-key="tricipital"><td>Tricipital <small style="color:#9CA3AF">Σ4+Σ6+Meso+Endo</small></td><td><span class="badge badge-b">mm</span></td><td><input class="toma" data-idx="0"></td><td><input class="toma" data-idx="1"></td><td class="avg-cell">—</td></tr>
+        <tr data-key="musloAnterior"><td>Muslo anterior <small style="color:#9CA3AF">Σ6</small></td><td><span class="badge badge-b">mm</span></td><td><input class="toma" data-idx="0"></td><td><input class="toma" data-idx="1"></td><td class="avg-cell">—</td></tr>
+        <tr data-key="pierna"><td>Pierna medial <small style="color:#9CA3AF">Σ6+Meso</small></td><td><span class="badge badge-b">mm</span></td><td><input class="toma" data-idx="0"></td><td><input class="toma" data-idx="1"></td><td class="avg-cell">—</td></tr>
+        <tr data-key="suprailíaco"><td>Suprailíaco <small style="color:#9CA3AF">Σ4+Σ6</small></td><td><span class="badge badge-b">mm</span></td><td><input class="toma" data-idx="0"></td><td><input class="toma" data-idx="1"></td><td class="avg-cell">—</td></tr>
+        <tr data-key="abdominal"><td>Abdominal <small style="color:#9CA3AF">Σ4+Σ6</small></td><td><span class="badge badge-b">mm</span></td><td><input class="toma" data-idx="0"></td><td><input class="toma" data-idx="1"></td><td class="avg-cell">—</td></tr>
+        <tr data-key="supraespinal" class="hi-row"><td>Supraespinal ★ <small style="color:#9CA3AF">Endomorfía</small></td><td><span class="badge badge-b">mm</span></td><td><input class="toma" data-idx="0"></td><td><input class="toma" data-idx="1"></td><td class="avg-cell">—</td></tr>
+      </tbody>
+    </table></div>
+    <p class="note">★ Si no tienes supraespinal, se usará suprailíaco para la endomorfía.</p>
+  </div>
+
+  <div id="tab-diametros" class="hidden">
+    <p style="font-size:.75rem;color:var(--slate-500);margin-bottom:.65rem">Valores en <strong>centímetros (cm)</strong>.</p>
+    <div style="overflow-x:auto"><table>
+      <thead><tr><th style="min-width:230px">Medida</th><th>Unidad</th><th>Toma 1</th><th>Toma 2</th><th>Promedio</th></tr></thead>
+      <tbody id="tbody-an-d">
+        <tr data-key="dEstiloideo"><td>Diámetro estiloideo (muñeca) <small style="color:#9CA3AF">Masa ósea</small></td><td><span class="badge badge-g">cm</span></td><td><input class="toma" data-idx="0"></td><td><input class="toma" data-idx="1"></td><td class="avg-cell">—</td></tr>
+        <tr data-key="dBicondiloFemur"><td>Diámetro bicondíleo fémur <small style="color:#9CA3AF">Masa ósea+Meso</small></td><td><span class="badge badge-g">cm</span></td><td><input class="toma" data-idx="0"></td><td><input class="toma" data-idx="1"></td><td class="avg-cell">—</td></tr>
+        <tr data-key="dBiepicondilarHumero"><td>Diámetro biepicondilar húmero <small style="color:#9CA3AF">Mesomorfía</small></td><td><span class="badge badge-g">cm</span></td><td><input class="toma" data-idx="0"></td><td><input class="toma" data-idx="1"></td><td class="avg-cell">—</td></tr>
+      </tbody>
+    </table></div>
+  </div>
+
+  <div id="tab-perimetros" class="hidden">
+    <p style="font-size:.75rem;color:var(--slate-500);margin-bottom:.65rem">Perímetros en <strong>cm</strong> · peso en <strong>kg</strong> · talla en <strong>cm</strong>.</p>
+    <div style="overflow-x:auto"><table>
+      <thead><tr><th style="min-width:230px">Medida</th><th>Unidad</th><th>Toma 1</th><th>Toma 2</th><th>Promedio</th></tr></thead>
+      <tbody id="tbody-an-p">
+        <tr data-key="estatura"><td>Estatura</td><td><span class="badge badge-g">cm</span></td><td><input class="toma" data-idx="0"></td><td><input class="toma" data-idx="1"></td><td class="avg-cell">—</td></tr>
+        <tr data-key="peso"><td>Peso corporal</td><td><span class="badge badge-r">kg</span></td><td><input class="toma" data-idx="0"></td><td><input class="toma" data-idx="1"></td><td class="avg-cell">—</td></tr>
+        <tr data-key="pBrazoContraido"><td>Perímetro brazo contraído <small style="color:#9CA3AF">Meso</small></td><td><span class="badge badge-g">cm</span></td><td><input class="toma" data-idx="0"></td><td><input class="toma" data-idx="1"></td><td class="avg-cell">—</td></tr>
+        <tr data-key="pPierna"><td>Perímetro pierna máximo <small style="color:#9CA3AF">Meso</small></td><td><span class="badge badge-g">cm</span></td><td><input class="toma" data-idx="0"></td><td><input class="toma" data-idx="1"></td><td class="avg-cell">—</td></tr>
+      </tbody>
+    </table></div>
+  </div>
+</div>
+
+<!-- ══ RESULTADOS COMPOSICIÓN ══ -->
+<div class="card">
+  <h2>📊 Resultados de Composición Corporal</h2>
+  <div style="margin-bottom:.9rem">
+    <div style="font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--slate-500);margin-bottom:.5rem">Sumas de pliegues</div>
+    <div class="grid3">
+      <div class="rbox"><div class="lbl">Σ 6 pliegues</div><div class="val" id="r-sum6">—</div><div class="sub">mm</div></div>
+      <div class="rbox"><div class="lbl">Σ 4 pliegues</div><div class="val" id="r-sum4">—</div><div class="sub">mm</div></div>
+    </div>
+  </div>
+  <div style="margin-bottom:.9rem">
+    <div style="font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--slate-500);margin-bottom:.5rem">Masa grasa</div>
+    <div class="grid3">
+      <div class="rbox"><div class="lbl">% Grasa Faulkner</div><div class="val" id="r-faulkner" style="color:#DC2626">—</div></div>
+      <div class="rbox"><div class="lbl">% Grasa Yuhasz</div><div class="val" id="r-yuhasz" style="color:#EA580C">—</div><div class="sub" id="r-yuhasz-sub">Hombre</div></div>
+      <div class="rbox"><div class="lbl">Peso graso</div><div class="val" id="r-pgraso" style="color:#DC2626">—</div><div class="sub">kg</div></div>
+    </div>
+  </div>
+  <div style="margin-bottom:.9rem">
+    <div style="font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--slate-500);margin-bottom:.5rem">Masas ósea y residual</div>
+    <div class="grid3">
+      <div class="rbox"><div class="lbl">Masa ósea (Rocha)</div><div class="val" id="r-osea" style="color:#92400E">—</div><div class="sub">kg</div></div>
+      <div class="rbox"><div class="lbl">Masa residual (Wurch)</div><div class="val" id="r-resid" style="color:#7C3AED">—</div><div class="sub" id="r-resid-sub">kg · 24.1% peso</div></div>
+    </div>
+  </div>
+  <div style="margin-bottom:.9rem">
+    <div style="font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--slate-500);margin-bottom:.5rem">Masa muscular</div>
+    <div class="grid3">
+      <div class="rbox"><div class="lbl">Peso muscular</div><div class="val" id="r-musc" style="color:#16A34A">—</div><div class="sub">kg</div></div>
+      <div class="rbox"><div class="lbl">% Muscular</div><div class="val" id="r-pmusc" style="color:#16A34A">—</div></div>
+    </div>
+  </div>
+  <div id="bar-section" class="hidden">
+    <div style="font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--slate-500);margin-bottom:.4rem">Distribución de masa corporal</div>
+    <div class="bar-wrap" id="compbar"></div>
+    <div class="legend-dots" id="barlegend"></div>
+  </div>
+</div>
+
+<!-- ══ SOMATOTIPO ══ -->
+<div class="card">
+  <h2>🔺 Somatotipo</h2>
+  <div class="grid3" style="margin-bottom:.85rem">
+    <div class="rbox"><div class="lbl">Índice Ponderal</div><div class="val" id="r-ip">—</div><div class="sub">est(cm) / ∛peso(kg)</div></div>
+    <div class="rbox"><div class="lbl">Endomorfía</div><div class="val" id="r-endo" style="color:#DC2626">—</div></div>
+    <div class="rbox"><div class="lbl">Mesomorfía</div><div class="val" id="r-meso" style="color:#16A34A">—</div></div>
+    <div class="rbox"><div class="lbl">Ectomorfía</div><div class="val" id="r-ecto" style="color:#2563EB">—</div></div>
+    <div class="rbox"><div class="lbl">X somatocarta</div><div class="val" id="r-X">—</div><div class="sub">Ecto − Endo</div></div>
+    <div class="rbox"><div class="lbl">Y somatocarta</div><div class="val" id="r-Y">—</div><div class="sub">2·Meso − (Ecto+Endo)</div></div>
+  </div>
+  <div id="soma-tag-container"></div>
+</div>
+
+<!-- ══ SOMATOCARTA ══ -->
+<div class="card">
+  <h2>📍 Somatocarta</h2>
+  <div class="soma-row">
+    <div class="soma-canvas"><canvas id="somaCanvas" width="460" height="510"></canvas></div>
+    <div class="info-cards" id="info-cards" style="flex:1 1 240px;min-width:200px">
+      <div style="color:var(--slate-400);font-size:.82rem;padding:.75rem;border:1.5px dashed var(--slate-200);border-radius:10px;text-align:center">Completa los datos para ver la interpretación aquí.</div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ GUARDAR EN SHEETS ══ -->
+<div class="card">
+  <h2>💾 Guardar en Google Sheets</h2>
+
+  <div id="url-display-box" class="hidden" style="background:var(--slate-50);border:1px solid var(--slate-200);border-radius:10px;padding:1rem;margin-bottom:1rem">
+    <div style="font-size:.7rem;font-weight:700;color:var(--slate-500);text-transform:uppercase;letter-spacing:.4px;margin-bottom:.35rem">URL configurada</div>
+    <div id="url-display" class="url-val">Cargando...</div>
+    <div style="font-size:.7rem;color:var(--slate-400);margin-top:.3rem">Para cambiar la URL: panel Administrador → Configuración.</div>
+  </div>
+
+  <div class="btn-group" style="margin-bottom:.5rem">
+    <button class="btn btn-sync hidden" id="btn-sync" onclick="doSync()">
+      🔄 Verificar Conexión
+    </button>
+    <button class="btn btn-green" id="btn-save" onclick="doSave()">
+      💾 Guardar Registro
+    </button>
+    <button class="btn btn-outline" id="btn-print" onclick="doPrint()">🖨️ Imprimir</button>
+    <button class="btn btn-warn" onclick="doClear()">🧹 Limpiar</button>
+    <button class="btn btn-outline hidden" id="btn-instrucciones" onclick="toggleSetup()">⚙️ Instrucciones</button>
+  </div>
+  <div id="save-msg"></div>
+
+  <div id="setup-box" class="setup-box hidden">
+    <strong style="font-size:.88rem">📋 Cómo conectar con Google Sheets</strong>
+    <ol>
+      <li>Abre <a href="https://sheets.new" target="_blank">Google Sheets</a> y crea una hoja nueva.</li>
+      <li>Ve a <strong>Extensiones → Apps Script</strong>.</li>
+      <li>Borra todo el código existente y pega el siguiente:</li>
+    </ol>
+    <pre>var HEADERS = [
+  "Fecha","Nombre","Sexo","Edad",
+  "Peso_t1(kg)","Peso_t2(kg)","Peso(kg)",
+  "Estatura_t1(cm)","Estatura_t2(cm)","Estatura(cm)",
+  // Pliegues mm — toma1, toma2, promedio
+  "Subescapular_t1","Subescapular_t2",
+  "Tricipital_t1","Tricipital_t2",
+  "MusloAnterior_t1","MusloAnterior_t2",
+  "Pierna_t1","Pierna_t2",
+  "Suprailiaco_t1","Suprailiaco_t2",
+  "Abdominal_t1","Abdominal_t2",
+  "Supraespinal_t1","Supraespinal_t2",
+  // Diámetros cm
+  "dEstiloideo_t1","dEstiloideo_t2",
+  "dBicondiloFemur_t1","dBicondiloFemur_t2",
+  "dBiepicondilarH_t1","dBiepicondilarH_t2",
+  // Perímetros cm
+  "pBrazo_t1","pBrazo_t2",
+  "pPierna_t1","pPierna_t2",
+  // Resultados
+  "%Grasa Faulkner","%Grasa Yuhasz","Peso Graso(kg)",
+  "Masa Ósea(kg)","Masa Residual(kg)","Peso Muscular(kg)",
+  "Endomorfía","Mesomorfía","Ectomorfía",
+  "X soma","Y soma","Somatotipo"
+];
+
+// Devuelve JSON normal o JSONP según el parámetro ?callback=
+// Esto resuelve el bloqueo de CORS desde GitHub Pages / incógnito.
+function respond(data, callback) {
+  var json = JSON.stringify(data);
+  if (callback) {
+    return ContentService
+      .createTextOutput(callback + '(' + json + ')')
+      .setMimeType(ContentService.MimeType.JAVASCRIPT);
+  }
+  return ContentService
+    .createTextOutput(json)
+    .setMimeType(ContentService.MimeType.JSON);
+}
+
+function doPost(e) {
+  try {
+    var d = JSON.parse(e.postData.contents);
+    var s = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
+    if (s.getLastRow() === 0) s.appendRow(HEADERS);
+
+    if (d.action === 'update' && d._row) {
+      var row = d._row;
+      s.getRange(row, 1).setValue(d.fecha||'');
+      s.getRange(row, 2).setValue(d.nombre||'');
+      s.getRange(row, 3).setValue(d.sexo||'');
+      s.getRange(row, 4).setValue(d.edad||'');
+      return respond({status:"ok"}, null);
+    }
+
+    if (d.action === 'delete' && d._row) {
+      s.deleteRow(d._row);
+      return respond({status:"ok"}, null);
+    }
+
+    s.appendRow([
+      d.fecha, d.nombre, d.sexo, d.edad,
+      d.an_peso_t1, d.an_peso_t2, d.peso,
+      d.an_estatura_t1, d.an_estatura_t2, d.estatura,
+      d.pl_subescapular_t1, d.pl_subescapular_t2,
+      d.pl_tricipital_t1, d.pl_tricipital_t2,
+      d.pl_musloAnterior_t1, d.pl_musloAnterior_t2,
+      d.pl_pierna_t1, d.pl_pierna_t2,
+      d.pl_suprailiaco_t1, d.pl_suprailiaco_t2,
+      d.pl_abdominal_t1, d.pl_abdominal_t2,
+      d.pl_supraespinal_t1, d.pl_supraespinal_t2,
+      d.an_dEstiloideo_t1, d.an_dEstiloideo_t2,
+      d.an_dBicondiloFemur_t1, d.an_dBicondiloFemur_t2,
+      d.an_dBiepicondilarH_t1, d.an_dBiepicondilarH_t2,
+      d.an_pBrazo_t1, d.an_pBrazo_t2,
+      d.an_pPierna_t1, d.an_pPierna_t2,
+      d.grasaFaulkner, d.grasaYuhasz, d.pesoGraso,
+      d.masaOsea, d.masaResidual, d.pesoMuscular,
+      d.endomorphy, d.mesomorphy, d.ectomorphy,
+      d.X, d.Y, d.classification
+    ]);
+    return respond({status:"ok"}, null);
+  } catch(err) {
+    return respond({status:"error",message:err.message}, null);
+  }
+}
+
+function doGet(e) {
+  var action   = e && e.parameter && e.parameter.action;
+  var callback = e && e.parameter && e.parameter.callback; // JSONP callback
+  var s = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
+
+  if (action === 'ping') {
+    return respond({status:"ok",message:"Conectado"}, callback);
+  }
+
+  var rows = s.getDataRange().getValues();
+  if (rows.length <= 1)
+    return respond({status:"ok",data:[]}, callback);
+
+  var headers = rows[0];
+  var data = rows.slice(1).map(function(r,i){
+    var obj = {_row: i+2};
+    headers.forEach(function(h,j){ obj[h] = r[j]; });
+    return obj;
+  });
+  return respond({status:"ok",data:data}, callback);
+}</pre>
+    <ol start="4">
+      <li>Guarda (<strong>Ctrl+S</strong>) y asígnale un nombre al proyecto.</li>
+      <li>Clic en <strong>Implementar → Nueva implementación</strong>. Tipo: <em>Aplicación web</em>. Ejecutar como: <em>Yo</em>. Acceso: <em>Cualquier persona</em>.</li>
+      <li>Haz clic en <strong>Implementar</strong>, autoriza los permisos y copia la URL generada.</li>
+      <li>Pega esa URL en el panel <strong>Administrador → Configuración → URL del Script</strong> y guarda.</li>
+      <li>⚠️ Si ya tenías una implementación anterior, debes crear una <strong>nueva implementación</strong> (no editar la existente) para que los cambios tomen efecto.</li>
+    </ol>
+  </div>
+</div>
+
+</div><!-- /wrap -->
+
+<!-- ══════════════════════ ADMIN MODAL ══════════════════════ -->
+<div class="overlay" id="ov-admin">
+  <div class="modal">
+    <div class="modal-hdr purple">
+      <div><h3>🔐 Panel de Administrador</h3><p>Gestión de datos y configuración</p></div>
+      <div style="display:flex;align-items:center;gap:.5rem">
+        <button id="btn-logout" class="btn btn-danger btn-sm hidden" onclick="doLogout()" title="Cerrar sesión de administrador">🚪 Cerrar sesión</button>
+        <button class="close-btn" onclick="closeAdmin()">✕</button>
+      </div>
+    </div>
+    <div class="modal-body">
+
+      <!-- Login gate -->
+      <div id="login-gate">
+        <div style="max-width:320px;margin:1.5rem auto;text-align:center">
+          <div style="font-size:2.5rem;margin-bottom:.75rem">🔒</div>
+          <h4 style="font-size:1rem;margin-bottom:.4rem">Acceso de Administrador</h4>
+          <p style="font-size:.82rem;color:var(--slate-500);margin-bottom:1.25rem">Ingresa la contraseña para continuar.</p>
+          <input type="password" id="admin-pwd" placeholder="Contraseña" style="text-align:center;margin-bottom:.75rem" onkeydown="if(event.key==='Enter')doLogin()">
+          <div id="login-err" style="font-size:.78rem;color:#DC2626;min-height:1.3em;margin-bottom:.5rem"></div>
+          <button class="btn btn-admin" style="width:100%;justify-content:center" onclick="doLogin()">Ingresar</button>
+          <div style="font-size:.72rem;color:var(--slate-400);margin-top:.75rem">Contraseña predeterminada: <code>admin123</code></div>
+        </div>
+      </div>
+
+      <!-- Admin content -->
+      <div id="admin-content" class="hidden">
+        <div class="admin-tabs">
+          <button class="atab active" onclick="switchTab('config',this)">⚙️ Configuración</button>
+          <button class="atab" onclick="switchTab('records',this)">📋 Consultar / Editar</button>
+          <button class="atab" onclick="switchTab('units',this)">📏 Guía de Unidades</button>
+        </div>
+
+        <!-- PANEL: CONFIG -->
+        <div class="apanel active" id="ap-config">
+          <div class="url-box" style="margin-bottom:1rem">
+            <label>URL del Google Apps Script</label>
+            <input type="url" id="cfg-url" placeholder="https://script.google.com/macros/s/…/exec" style="font-family:'DM Mono',monospace;font-size:.78rem;margin-top:.4rem">
+            <div class="btn-group" style="margin-top:.75rem">
+              <button class="btn btn-primary btn-sm" onclick="saveUrl()">💾 Guardar URL</button>
+              <button class="btn btn-sync btn-sm" onclick="doSync()">🔄 Probar Conexión</button>
+            </div>
+            <div id="cfg-url-msg"></div>
+          </div>
+
+          <div class="sep"></div>
+
+          <!-- LOGO SECTION -->
+          <div style="font-size:.82rem;font-weight:700;color:var(--slate-700);margin-bottom:.75rem">🖼️ Logo de la Aplicación</div>
+          <div style="display:flex;align-items:center;gap:1rem;flex-wrap:wrap;margin-bottom:.75rem">
+            <div id="logo-preview-admin" style="width:72px;height:72px;border:2px dashed var(--slate-300);border-radius:10px;display:flex;align-items:center;justify-content:center;background:var(--slate-50);overflow:hidden;flex-shrink:0">
+              <span style="font-size:1.6rem">🏋️</span>
+            </div>
+            <div>
+              <label class="btn btn-outline btn-sm" for="logo-input" style="cursor:pointer;display:inline-flex;align-items:center;gap:.4rem">📁 Seleccionar imagen</label>
+              <input type="file" id="logo-input" accept="image/*" style="display:none" onchange="handleLogoUpload(event)">
+              <div style="font-size:.72rem;color:var(--slate-400);margin-top:.4rem">PNG, JPG o SVG · Se guarda automáticamente</div>
+              <button class="btn btn-danger btn-sm" style="margin-top:.5rem" onclick="removeLogo()">🗑️ Eliminar logo</button>
+            </div>
+          </div>
+          <div id="logo-msg"></div>
+
+          <div class="sep"></div>
+
+          <div style="font-size:.82rem;font-weight:700;color:var(--slate-700);margin-bottom:.75rem">🔑 Cambiar Contraseña</div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:.75rem;max-width:420px">
+            <div class="ef"><label>Contraseña actual</label><input type="password" id="pwd-cur" placeholder="••••••••"></div>
+            <div class="ef"><label>Nueva contraseña</label><input type="password" id="pwd-new" placeholder="Mín. 4 caracteres"></div>
+          </div>
+          <div style="margin-top:.75rem;display:flex;gap:.5rem;align-items:center;flex-wrap:wrap">
+            <button class="btn btn-outline btn-sm" onclick="changePwd()">🔑 Actualizar</button>
+            <span id="pwd-msg" style="font-size:.78rem"></span>
+          </div>
+        </div>
+
+        <!-- PANEL: RECORDS -->
+        <div class="apanel" id="ap-records">
+          <div class="btn-group" style="margin-bottom:.75rem">
+            <button class="btn btn-sync btn-sm" id="btn-load" onclick="loadRecords()">📥 Cargar registros</button>
+            <input type="text" id="rec-search" placeholder="🔍 Buscar por nombre…" style="width:210px;padding:.4rem .75rem;font-size:.82rem" oninput="filterRec()">
+            <span id="rec-count" style="font-size:.78rem;color:var(--slate-400);margin-left:auto"></span>
+          </div>
+          <div id="rec-msg"></div>
+          <div id="rec-container"><div class="empty">Haz clic en "Cargar registros" para ver los datos.</div></div>
+        </div>
+
+        <!-- PANEL: UNITS -->
+        <div class="apanel" id="ap-units">
+          <p style="font-size:.82rem;color:var(--slate-600);margin-bottom:1rem">Referencia completa de campos y unidades de medida.</p>
+          <div style="overflow-x:auto"><table class="utable">
+            <thead><tr><th>Campo</th><th>Unidad</th><th>Rango típico</th><th>Descripción</th></tr></thead>
+            <tbody>
+              <tr class="cat"><td colspan="4">👤 Datos Generales</td></tr>
+              <tr><td>Edad</td><td><span class="ubadge ub-yr">años</span></td><td>5 – 100</td><td>Edad cronológica del evaluado</td></tr>
+              <tr><td>Sexo</td><td><span class="ubadge" style="background:#F5F3FF;color:#6D28D9">M / F</span></td><td>—</td><td>Masculino o Femenino (afecta Yuhasz y Residual)</td></tr>
+              <tr class="cat"><td colspan="4">⚖️ Peso y Talla</td></tr>
+              <tr><td>Peso corporal</td><td><span class="ubadge ub-kg">kg</span></td><td>30 – 200 kg</td><td>Sin ropa ni calzado</td></tr>
+              <tr><td>Estatura</td><td><span class="ubadge ub-cm">cm</span></td><td>100 – 220 cm</td><td>Talla de pie</td></tr>
+              <tr class="cat"><td colspan="4">🤏 Pliegues Cutáneos — todos en mm</td></tr>
+              <tr><td>Subescapular</td><td><span class="ubadge ub-mm">mm</span></td><td>5 – 50</td><td>Bajo el ángulo inferior de la escápula</td></tr>
+              <tr><td>Tricipital</td><td><span class="ubadge ub-mm">mm</span></td><td>4 – 50</td><td>Cara posterior del brazo, punto medio</td></tr>
+              <tr><td>Muslo anterior</td><td><span class="ubadge ub-mm">mm</span></td><td>5 – 70</td><td>Cara anterior del muslo, punto medio</td></tr>
+              <tr><td>Pierna medial</td><td><span class="ubadge ub-mm">mm</span></td><td>4 – 50</td><td>Cara medial, máximo perímetro de pantorrilla</td></tr>
+              <tr><td>Suprailíaco</td><td><span class="ubadge ub-mm">mm</span></td><td>4 – 60</td><td>Sobre la cresta ilíaca, línea axilar media</td></tr>
+              <tr><td>Abdominal</td><td><span class="ubadge ub-mm">mm</span></td><td>5 – 70</td><td>5 cm lateral a la derecha del ombligo</td></tr>
+              <tr><td>Supraespinal ★</td><td><span class="ubadge ub-mm">mm</span></td><td>4 – 50</td><td>Intersección línea ilíaca–axilar anterior. Preferido sobre suprailíaco para Carter-Heath</td></tr>
+              <tr class="cat"><td colspan="4">📐 Diámetros Óseos — todos en cm</td></tr>
+              <tr><td>Diámetro estiloideo (muñeca)</td><td><span class="ubadge ub-cm">cm</span></td><td>4 – 7</td><td>Distancia biepicondilar radio-cúbito. Masa ósea Rocha</td></tr>
+              <tr><td>Diámetro bicondíleo fémur</td><td><span class="ubadge ub-cm">cm</span></td><td>7 – 12</td><td>Cóndilo medial–lateral del fémur. Masa ósea + Mesomorfía</td></tr>
+              <tr><td>Diámetro biepicondilar húmero</td><td><span class="ubadge ub-cm">cm</span></td><td>5 – 8</td><td>Epicóndilo medial–lateral del húmero. Mesomorfía</td></tr>
+              <tr class="cat"><td colspan="4">📏 Perímetros — todos en cm</td></tr>
+              <tr><td>Perímetro brazo contraído</td><td><span class="ubadge ub-cm">cm</span></td><td>20 – 50</td><td>Bíceps en contracción máxima. Mesomorfía</td></tr>
+              <tr><td>Perímetro pierna máximo</td><td><span class="ubadge ub-cm">cm</span></td><td>25 – 60</td><td>Máxima circunferencia de pantorrilla. Mesomorfía</td></tr>
+              <tr class="cat"><td colspan="4">📊 Resultados (solo lectura)</td></tr>
+              <tr><td>% Grasa Faulkner</td><td><span class="ubadge ub-pct">%</span></td><td>5 – 50%</td><td>Σ4: subescapular + tricipital + suprailíaco + abdominal</td></tr>
+              <tr><td>% Grasa Yuhasz</td><td><span class="ubadge ub-pct">%</span></td><td>5 – 50%</td><td>Σ6 pliegues. Fórmula distinta por sexo</td></tr>
+              <tr><td>Masa ósea (Rocha)</td><td><span class="ubadge ub-kg">kg</span></td><td>5 – 18</td><td>Requiere: estatura + diámetro muñeca + diámetro fémur</td></tr>
+              <tr><td>Masa residual (Wurch)</td><td><span class="ubadge ub-kg">kg</span></td><td>—</td><td>24.1% peso (hombre) · 20.9% peso (mujer)</td></tr>
+              <tr><td>Endomorfía / Mesomorfía / Ectomorfía</td><td><span class="ubadge" style="background:#F3F4F6;color:#374151">valor</span></td><td>0.5 – 12</td><td>Componentes del somatotipo Carter-Heath (1990)</td></tr>
+            </tbody>
+          </table></div>
+        </div>
+
+      </div><!-- /admin-content -->
+    </div><!-- /modal-body -->
+  </div>
+</div>
+
+<!-- ══════════════════════ EDIT MODAL ══════════════════════ -->
+<div class="overlay" id="ov-edit">
+  <div class="modal" style="max-width:700px">
+    <div class="modal-hdr dark">
+      <div><h3>✏️ Editar Registro</h3><p style="font-size:.72rem;opacity:.6;margin-top:2px">Edita cualquier campo para habilitar el botón Guardar</p></div>
+      <button class="close-btn" onclick="closeEdit()">✕</button>
+    </div>
+    <div class="modal-body">
+      <!-- Sección: datos generales -->
+      <div style="font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:#64748B;border-bottom:1px solid #E2E8F0;padding-bottom:5px;margin-bottom:10px">👤 Datos generales</div>
+      <div class="edit-grid" style="margin-bottom:14px">
+        <div class="ef"><label>Nombre</label><input type="text" id="e-nombre" oninput="markEditDirty()"></div>
+        <div class="ef"><label>Sexo</label><select id="e-sexo" onchange="markEditDirty()"><option value="masculino">Masculino</option><option value="femenino">Femenino</option></select></div>
+        <div class="ef"><label>Edad (años)</label><input type="number" id="e-edad" oninput="markEditDirty()"></div>
+        <div class="ef"><label>Fecha</label><input type="date" id="e-fecha" oninput="markEditDirty()"></div>
+      </div>
+      <!-- Sección: peso y talla -->
+      <div style="font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:#64748B;border-bottom:1px solid #E2E8F0;padding-bottom:5px;margin-bottom:10px">⚖️ Peso y Talla</div>
+      <div class="edit-grid" style="margin-bottom:14px">
+        <div class="ef"><label>Peso T1 (kg)</label><input type="number" id="e-an-peso-t1" step="0.1" oninput="markEditDirty()"></div>
+        <div class="ef"><label>Peso T2 (kg)</label><input type="number" id="e-an-peso-t2" step="0.1" oninput="markEditDirty()"></div>
+        <div class="ef"><label>Peso promedio (kg)</label><input type="number" id="e-peso" step="0.1" oninput="markEditDirty()"></div>
+        <div class="ef"><label>Estatura T1 (cm)</label><input type="number" id="e-an-estatura-t1" step="0.1" oninput="markEditDirty()"></div>
+        <div class="ef"><label>Estatura T2 (cm)</label><input type="number" id="e-an-estatura-t2" step="0.1" oninput="markEditDirty()"></div>
+        <div class="ef"><label>Estatura promedio (cm)</label><input type="number" id="e-estatura" step="0.1" oninput="markEditDirty()"></div>
+      </div>
+      <!-- Sección: pliegues -->
+      <div style="font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:#64748B;border-bottom:1px solid #E2E8F0;padding-bottom:5px;margin-bottom:10px">🤏 Pliegues Cutáneos (mm)</div>
+      <div class="edit-grid" style="grid-template-columns:repeat(auto-fit,minmax(120px,1fr));margin-bottom:14px">
+        <div class="ef"><label>Subescapular T1</label><input type="number" id="e-pl-subescapular-t1" step="0.1" oninput="markEditDirty()"></div>
+        <div class="ef"><label>Subescapular T2</label><input type="number" id="e-pl-subescapular-t2" step="0.1" oninput="markEditDirty()"></div>
+        <div class="ef"><label>Tricipital T1</label><input type="number" id="e-pl-tricipital-t1" step="0.1" oninput="markEditDirty()"></div>
+        <div class="ef"><label>Tricipital T2</label><input type="number" id="e-pl-tricipital-t2" step="0.1" oninput="markEditDirty()"></div>
+        <div class="ef"><label>Muslo Ant. T1</label><input type="number" id="e-pl-muslo-t1" step="0.1" oninput="markEditDirty()"></div>
+        <div class="ef"><label>Muslo Ant. T2</label><input type="number" id="e-pl-muslo-t2" step="0.1" oninput="markEditDirty()"></div>
+        <div class="ef"><label>Pierna T1</label><input type="number" id="e-pl-pierna-t1" step="0.1" oninput="markEditDirty()"></div>
+        <div class="ef"><label>Pierna T2</label><input type="number" id="e-pl-pierna-t2" step="0.1" oninput="markEditDirty()"></div>
+        <div class="ef"><label>Suprailíaco T1</label><input type="number" id="e-pl-suprailiaco-t1" step="0.1" oninput="markEditDirty()"></div>
+        <div class="ef"><label>Suprailíaco T2</label><input type="number" id="e-pl-suprailiaco-t2" step="0.1" oninput="markEditDirty()"></div>
+        <div class="ef"><label>Abdominal T1</label><input type="number" id="e-pl-abdominal-t1" step="0.1" oninput="markEditDirty()"></div>
+        <div class="ef"><label>Abdominal T2</label><input type="number" id="e-pl-abdominal-t2" step="0.1" oninput="markEditDirty()"></div>
+        <div class="ef"><label>Supraespinal T1</label><input type="number" id="e-pl-supraespinal-t1" step="0.1" oninput="markEditDirty()"></div>
+        <div class="ef"><label>Supraespinal T2</label><input type="number" id="e-pl-supraespinal-t2" step="0.1" oninput="markEditDirty()"></div>
+      </div>
+      <!-- Sección: diámetros -->
+      <div style="font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:#64748B;border-bottom:1px solid #E2E8F0;padding-bottom:5px;margin-bottom:10px">📐 Diámetros (cm)</div>
+      <div class="edit-grid" style="grid-template-columns:repeat(auto-fit,minmax(120px,1fr));margin-bottom:14px">
+        <div class="ef"><label>Estiloideo T1</label><input type="number" id="e-an-estiloideo-t1" step="0.01" oninput="markEditDirty()"></div>
+        <div class="ef"><label>Estiloideo T2</label><input type="number" id="e-an-estiloideo-t2" step="0.01" oninput="markEditDirty()"></div>
+        <div class="ef"><label>Bicondíleo fémur T1</label><input type="number" id="e-an-femur-t1" step="0.01" oninput="markEditDirty()"></div>
+        <div class="ef"><label>Bicondíleo fémur T2</label><input type="number" id="e-an-femur-t2" step="0.01" oninput="markEditDirty()"></div>
+        <div class="ef"><label>Biepicondilar húmero T1</label><input type="number" id="e-an-humero-t1" step="0.01" oninput="markEditDirty()"></div>
+        <div class="ef"><label>Biepicondilar húmero T2</label><input type="number" id="e-an-humero-t2" step="0.01" oninput="markEditDirty()"></div>
+      </div>
+      <!-- Sección: perímetros -->
+      <div style="font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:#64748B;border-bottom:1px solid #E2E8F0;padding-bottom:5px;margin-bottom:10px">📏 Perímetros (cm)</div>
+      <div class="edit-grid" style="grid-template-columns:repeat(auto-fit,minmax(120px,1fr));margin-bottom:14px">
+        <div class="ef"><label>Brazo contraído T1</label><input type="number" id="e-an-brazo-t1" step="0.1" oninput="markEditDirty()"></div>
+        <div class="ef"><label>Brazo contraído T2</label><input type="number" id="e-an-brazo-t2" step="0.1" oninput="markEditDirty()"></div>
+        <div class="ef"><label>Pierna máx. T1</label><input type="number" id="e-an-pierna-t1" step="0.1" oninput="markEditDirty()"></div>
+        <div class="ef"><label>Pierna máx. T2</label><input type="number" id="e-an-pierna-t2" step="0.1" oninput="markEditDirty()"></div>
+      </div>
+      <!-- Sección: resultados -->
+      <div style="font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:#64748B;border-bottom:1px solid #E2E8F0;padding-bottom:5px;margin-bottom:10px">📊 Resultados calculados</div>
+      <div class="edit-grid" style="margin-bottom:10px">
+        <div class="ef"><label>% Grasa Faulkner</label><input type="number" id="e-gF" step="0.01" oninput="markEditDirty()"><div class="unit">%</div></div>
+        <div class="ef"><label>% Grasa Yuhasz</label><input type="number" id="e-gY" step="0.01" oninput="markEditDirty()"><div class="unit">%</div></div>
+        <div class="ef"><label>Endomorfía</label><input type="number" id="e-endo" step="0.01" oninput="markEditDirty()"></div>
+        <div class="ef"><label>Mesomorfía</label><input type="number" id="e-meso" step="0.01" oninput="markEditDirty()"></div>
+        <div class="ef"><label>Ectomorfía</label><input type="number" id="e-ecto" step="0.01" oninput="markEditDirty()"></div>
+        <div class="ef"><label>Somatotipo</label><input type="text" id="e-class" oninput="markEditDirty()"></div>
+      </div>
+      <div id="edit-msg"></div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-outline" onclick="closeEdit()">Cancelar</button>
+      <button class="btn btn-primary" id="btn-save-edit" onclick="saveEdit()" disabled style="opacity:.45">💾 Guardar Cambios</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════ CONFIRM MODAL ══════════════════════ -->
+<div class="overlay" id="ov-confirm">
+  <div class="confirm-box">
+    <h4 id="cf-title">¿Confirmar acción?</h4>
+    <p id="cf-msg">Esta acción no se puede deshacer.</p>
+    <div class="btn-group" style="justify-content:center">
+      <button class="btn btn-outline" onclick="closeConfirm()">Cancelar</button>
+      <button class="btn btn-danger" onclick="doConfirm()">Sí, eliminar</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ══════════════ CONFIG — persiste en Google Apps Script (PropertiesService) ══════════════
+var SCRIPT_URL = localStorage.getItem('cc_script_url') || 'https://script.google.com/macros/s/AKfycbw1FcAQVN1qPP2HSmcrAE-mow0IswxWFB7EXJVREZieV0pCpk21_DT4gcawfW4BgFJU/exec';
+var ADMIN_PWD  = localStorage.getItem('cc_admin_pwd') || 'admin123';
+var adminIn    = false;
+var allRecs    = [];
+var editIdx    = null;
+var cfCb       = null;
+
+// ══════════════ STORES ══════════════
+var pl = {subescapular:[null,null],tricipital:[null,null],musloAnterior:[null,null],pierna:[null,null],"suprailíaco":[null,null],abdominal:[null,null],supraespinal:[null,null]};
+var an = {estatura:[null,null],peso:[null,null],dEstiloideo:[null,null],dBicondiloFemur:[null,null],dBiepicondilarHumero:[null,null],pBrazoContraido:[null,null],pPierna:[null,null]};
+var lastR = {};
+
+// ══════════════ UTILS ══════════════
+function avg2(a,b){var v=[];if(a!==null&&a!=='')v.push(parseFloat(a));if(b!==null&&b!=='')v.push(parseFloat(b));if(!v.length)return null;return v.reduce(function(s,x){return s+x},0)/v.length;}
+function fmt(v,d){return(v!==null&&!isNaN(v))?Number(v).toFixed(d!=null?d:2):'—';}
+function pct(v){return(v!==null&&!isNaN(v))?Number(v).toFixed(1)+'%':'—';}
+
+function setMsg(id,html,ms){
+  document.getElementById(id).innerHTML=html;
+  if(ms)setTimeout(function(){var el=document.getElementById(id);if(el)el.innerHTML='';},ms);
+}
+
+function setPill(state,text){
+  var el=document.getElementById('sync-pill');
+  el.className='sync-pill sync-'+state;
+  var icon = state==='ok'?'●':state==='err'?'✗':state==='busy'?'':' ○';
+  el.innerHTML=(state==='busy'?'<span class="dot-pulse"></span> ': icon+' ')+text;
+}
+
+function refreshUrlDisplay(){
+  var el=document.getElementById('url-display');
+  var u=SCRIPT_URL;
+  if(u){
+    var s=u.length>72?u.substring(0,58)+'…'+u.slice(-14):u;
+    el.textContent=s;
+    el.style.color='var(--admin)';
+  } else {
+    el.textContent='⚠️ Sin URL — configura en Administrador → Configuración';
+    el.style.color='#DC2626';
+  }
+  var inp=document.getElementById('cfg-url');
+  if(inp) inp.value=u||'';
+}
+
+// ══════════════ SYNC / SAVE ══════════════
+// ── JSONP helper — evita bloqueo CORS en GET desde GitHub Pages / incógnito ──
+function jsonpGet(url, timeoutMs){
+  timeoutMs = timeoutMs || 10000;
+  return new Promise(function(resolve, reject){
+    var cbName = '__cc_cb_' + Date.now() + '_' + Math.floor(Math.random()*9999);
+    var script = document.createElement('script');
+    var done = false;
+    var timer = setTimeout(function(){
+      if(done) return; done=true;
+      delete window[cbName];
+      if(script.parentNode) script.parentNode.removeChild(script);
+      reject(new Error('Timeout: no se pudo conectar con Google Apps Script.'));
+    }, timeoutMs);
+    window[cbName] = function(data){
+      if(done) return; done=true;
+      clearTimeout(timer);
+      delete window[cbName];
+      if(script.parentNode) script.parentNode.removeChild(script);
+      resolve(data);
+    };
+    script.src = url + (url.indexOf('?')>=0?'&':'?') + 'callback=' + cbName;
+    script.onerror = function(){
+      if(done) return; done=true;
+      clearTimeout(timer);
+      delete window[cbName];
+      if(script.parentNode) script.parentNode.removeChild(script);
+      reject(new Error('Error de red al cargar el script.'));
+    };
+    document.head.appendChild(script);
+  });
+}
+
+async function doSync(){
+  if(!SCRIPT_URL){
+    setPill('err','Sin URL');
+    setMsg('save-msg','<div class="alert alert-err">⚠️ No hay URL configurada. Ve a Administrador → Configuración.</div>',7000);
+    return;
+  }
+  setPill('busy','Verificando…');
+  var bs=document.getElementById('btn-sync');
+  if(bs){ bs.disabled=true; bs.innerHTML='<span class="spinner"></span> Verificando…'; }
+
+  try {
+    var data = await jsonpGet(SCRIPT_URL+'?action=ping');
+    if(data.status==='ok'){
+      setPill('ok','Conectado ✓');
+      setMsg('save-msg','<div class="alert alert-ok">✅ Conexión verificada. La hoja responde correctamente.</div>',6000);
+      setMsg('cfg-url-msg','<div class="alert alert-ok">✅ Conexión exitosa.</div>',5000);
+    } else {
+      throw new Error(data.message||'Respuesta inesperada del servidor');
+    }
+  } catch(e) {
+    setPill('err','Sin conexión');
+    setMsg('save-msg','<div class="alert alert-err">❌ '+e.message+'</div>',9000);
+    setMsg('cfg-url-msg','<div class="alert alert-err">❌ '+e.message+'</div>',8000);
+  }
+
+  if(bs){ bs.disabled=false; bs.innerHTML='🔄 Verificar Conexión'; }
+}
+
+async function doSave(){
+  if(!SCRIPT_URL){
+    setMsg('save-msg','<div class="alert alert-err">⚠️ Configura primero la URL en Administrador → Configuración.</div>',7000);
+    return;
+  }
+
+  var nombre = document.getElementById('nombre').value.trim();
+  if(!nombre){
+    setMsg('save-msg','<div class="alert alert-warn">⚠️ Ingresa al menos el nombre del evaluado antes de guardar.</div>',6000);
+    document.getElementById('nombre').focus();
+    return;
+  }
+
+  var bs=document.getElementById('btn-save');
+  bs.disabled=true;
+  bs.innerHTML='<span class="spinner"></span> Guardando…';
+  setMsg('save-msg','<div class="alert alert-info">⏳ Enviando datos a Google Sheets…</div>');
+
+  calc();
+  // Incluir TODAS las medidas brutas (toma1, toma2) en el payload
+  var payload = Object.assign({}, lastR, {
+    pl_subescapular_t1:    pl.subescapular[0]||'',    pl_subescapular_t2:    pl.subescapular[1]||'',
+    pl_tricipital_t1:      pl.tricipital[0]||'',      pl_tricipital_t2:      pl.tricipital[1]||'',
+    pl_musloAnterior_t1:   pl.musloAnterior[0]||'',   pl_musloAnterior_t2:   pl.musloAnterior[1]||'',
+    pl_pierna_t1:          pl.pierna[0]||'',           pl_pierna_t2:          pl.pierna[1]||'',
+    pl_suprailiaco_t1:     pl['suprailíaco'][0]||'',  pl_suprailiaco_t2:     pl['suprailíaco'][1]||'',
+    pl_abdominal_t1:       pl.abdominal[0]||'',        pl_abdominal_t2:       pl.abdominal[1]||'',
+    pl_supraespinal_t1:    pl.supraespinal[0]||'',    pl_supraespinal_t2:    pl.supraespinal[1]||'',
+    an_dEstiloideo_t1:     an.dEstiloideo[0]||'',     an_dEstiloideo_t2:     an.dEstiloideo[1]||'',
+    an_dBicondiloFemur_t1: an.dBicondiloFemur[0]||'', an_dBicondiloFemur_t2: an.dBicondiloFemur[1]||'',
+    an_dBiepicondilarH_t1: an.dBiepicondilarHumero[0]||'', an_dBiepicondilarH_t2: an.dBiepicondilarHumero[1]||'',
+    an_estatura_t1:        an.estatura[0]||'',         an_estatura_t2:        an.estatura[1]||'',
+    an_peso_t1:            an.peso[0]||'',             an_peso_t2:            an.peso[1]||'',
+    an_pBrazo_t1:          an.pBrazoContraido[0]||'', an_pBrazo_t2:          an.pBrazoContraido[1]||'',
+    an_pPierna_t1:         an.pPierna[0]||'',         an_pPierna_t2:         an.pPierna[1]||''
+  });
+
+  try {
+    // Google Apps Script requiere no-cors para evitar bloqueo de CORS.
+    // Con no-cors no podemos leer la respuesta, pero el dato sí llega.
+    await fetch(SCRIPT_URL, {
+      method:'POST',
+      mode:'no-cors',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify(payload)
+    });
+    // Si llegamos aquí sin excepción, el envío fue exitoso.
+    setMsg('save-msg','<div class="alert alert-ok">✅ Registro enviado correctamente a Google Sheets.</div>',8000);
+    setPill('ok','Guardado ✓');
+  } catch(e) {
+    var hint = e.message.includes('Failed to fetch')
+      ? 'No se pudo conectar. Verifica la URL y que el script esté implementado con acceso "Cualquier persona".'
+      : e.message;
+    setMsg('save-msg','<div class="alert alert-err">❌ Error al guardar: '+hint+'</div>',9000);
+    setPill('err','Error');
+  }
+
+  bs.disabled=false;
+  bs.innerHTML='💾 Guardar Registro';
+}
+
+function toggleSetup(){document.getElementById('setup-box').classList.toggle('hidden');}
+
+function doClear(){
+  if(!confirm('¿Limpiar todos los campos del formulario?')) return;
+  // Datos generales
+  document.getElementById('nombre').value='';
+  document.getElementById('sexo').value='masculino';
+  document.getElementById('edad').value='';
+  document.getElementById('fecha').value=new Date().toISOString().split('T')[0];
+  // Reset stores
+  Object.keys(pl).forEach(function(k){ pl[k]=[null,null]; });
+  Object.keys(an).forEach(function(k){ an[k]=[null,null]; });
+  // Clear all toma inputs and avg cells
+  document.querySelectorAll('input.toma').forEach(function(inp){ inp.value=''; });
+  document.querySelectorAll('.avg-cell').forEach(function(td){ td.textContent='—'; });
+  // Reset lastR
+  lastR={};
+  // Reset result displays
+  ['r-sum6','r-sum4','r-faulkner','r-yuhasz','r-pgraso','r-osea','r-resid','r-musc','r-pmusc','r-ip','r-endo','r-meso','r-ecto','r-X','r-Y'].forEach(function(id){
+    var el=document.getElementById(id); if(el) el.textContent='—';
+  });
+  document.getElementById('bar-section').classList.add('hidden');
+  document.getElementById('soma-tag-container').innerHTML='';
+  document.getElementById('info-cards').innerHTML='<div style="color:var(--slate-400);font-size:.82rem;padding:.75rem;border:1.5px dashed var(--slate-200);border-radius:10px;text-align:center">Completa los datos para ver la interpretación aquí.</div>';
+  document.getElementById('save-msg').innerHTML='';
+  drawChart(null,null,null,null);
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+function doPrint(){
+  var nombre = document.getElementById('nombre').value.trim();
+  if(!nombre){
+    alert('Ingresa al menos el nombre del evaluado antes de imprimir.');
+    return;
+  }
+  calc();
+  var r = lastR;
+  var sexo = document.getElementById('sexo').value;
+  var edad = document.getElementById('edad').value;
+  var fecha = document.getElementById('fecha').value;
+  var cls = r.classification || '—';
+  var somaData = SOMA[cls] || {icon:'❓',nm:cls,desc:'',char:'',sport:'',rec:'',bg:'#F3F4F6',tc:'#374151'};
+
+  // Capturar canvas como imagen
+  var canvasImg = '';
+  var cv = document.getElementById('somaCanvas');
+  if(cv){ try{ canvasImg = cv.toDataURL('image/png'); }catch(e){} }
+
+  // Logo
+  var logoHtml = '';
+  var savedLogo = localStorage.getItem('cc_logo');
+  if(savedLogo){ logoHtml = '<img src="'+savedLogo+'" style="height:52px;object-fit:contain;">'; }
+  else { logoHtml = '<span style="font-size:2rem">🏋️</span>'; }
+
+  var barHtml = '';
+  var barEl = document.getElementById('bar-section');
+  if(barEl && !barEl.classList.contains('hidden')){
+    barHtml = barEl.innerHTML;
+  }
+
+  var html = '<!DOCTYPE html><html lang="es"><head><meta charset="UTF-8"><title>Informe — '+nombre+'</title>'+
+  '<link rel="preconnect" href="https://fonts.googleapis.com">'+
+  '<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">'+
+  '<style>'+
+  '*{box-sizing:border-box;margin:0;padding:0}'+
+  'body{font-family:"DM Sans",system-ui,sans-serif;background:#fff;color:#1E293B;font-size:13px;line-height:1.5}'+
+  '.page{max-width:780px;margin:0 auto;padding:28px 32px 40px}'+
+  '/* HEADER */'+
+  '.hdr{display:flex;align-items:center;justify-content:space-between;padding:18px 24px;background:linear-gradient(135deg,#0F1D3A 0%,#1A3A8F 100%);border-radius:12px;color:#fff;margin-bottom:20px}'+
+  '.hdr-left{display:flex;align-items:center;gap:14px}'+
+  '.hdr-title h1{font-size:17px;font-weight:700;letter-spacing:-.3px}'+
+  '.hdr-title p{font-size:11px;opacity:.65;margin-top:2px}'+
+  '.hdr-right{text-align:right;font-size:11px;opacity:.7;line-height:1.8}'+
+  '/* SECTION */'+
+  '.section{margin-bottom:16px}'+
+  '.section-title{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.6px;color:#64748B;border-bottom:1.5px solid #E2E8F0;padding-bottom:5px;margin-bottom:10px}'+
+  '/* GRID */'+
+  '.grid{display:grid;gap:8px}'+
+  '.g2{grid-template-columns:1fr 1fr}'+
+  '.g3{grid-template-columns:1fr 1fr 1fr}'+
+  '.g4{grid-template-columns:1fr 1fr 1fr 1fr}'+
+  '/* DATA BOX */'+
+  '.dbox{background:#F8FAFC;border:1px solid #E2E8F0;border-radius:8px;padding:9px 11px}'+
+  '.dbox .lbl{font-size:10px;font-weight:600;color:#94A3B8;text-transform:uppercase;letter-spacing:.4px;margin-bottom:2px}'+
+  '.dbox .val{font-size:15px;font-weight:700;font-family:"DM Mono",monospace;color:#1E293B}'+
+  '.dbox .sub{font-size:10px;color:#94A3B8;margin-top:1px}'+
+  '/* SOMA TAG */'+
+  '.soma-tag{display:flex;gap:12px;align-items:flex-start;padding:14px 16px;border-radius:10px;border:1.5px solid;margin-bottom:10px}'+
+  '.soma-tag .icon{font-size:28px;line-height:1;flex-shrink:0}'+
+  '.soma-tag .nm{font-size:16px;font-weight:700;margin-bottom:3px}'+
+  '.soma-tag .group-badge{display:inline-block;font-size:9px;font-weight:700;padding:2px 7px;border-radius:20px;background:rgba(0,0,0,.1);text-transform:uppercase;letter-spacing:.5px;margin-bottom:5px}'+
+  '.soma-tag .desc{font-size:11.5px;line-height:1.55;opacity:.85}'+
+  '.soma-vals{background:rgba(255,255,255,.55);border-radius:7px;padding:7px 10px;margin-top:8px;font-size:16px;font-weight:700;font-family:"DM Mono",monospace;letter-spacing:2px;text-align:center}'+
+  '.soma-vals span{font-size:10px;font-weight:400;display:block;letter-spacing:0;opacity:.7;margin-top:2px}'+
+  '/* INFO CARDS */'+
+  '.icard{padding:9px 12px;border-radius:8px;background:#FAFBFE;border:1px solid #E8EDF5;border-left:3px solid}'+
+  '.icard .ic-title{font-size:10.5px;font-weight:700;margin-bottom:3px}'+
+  '.icard .ic-txt{font-size:11px;color:#475569;line-height:1.55}'+
+  '/* BAR */'+
+  '.bar-wrap{height:28px;border-radius:7px;overflow:hidden;display:flex;gap:1px;margin:8px 0 5px}'+
+  '.bar-seg{display:flex;align-items:center;justify-content:center;color:#fff;font-size:10px;font-weight:700}'+
+  '.legend-dots{display:flex;gap:12px;flex-wrap:wrap}'+
+  '.legend-dot{display:flex;align-items:center;gap:5px;font-size:10.5px;color:#334155}'+
+  '.dot{width:10px;height:10px;border-radius:3px;flex-shrink:0}'+
+  '/* CANVAS */'+
+  '.canvas-wrap{text-align:center;background:#FAFAFA;border:1px solid #E2E8F0;border-radius:10px;padding:10px}'+
+  '.canvas-wrap img{max-width:100%;height:auto;border-radius:6px}'+
+  '/* TWO COL LAYOUT */'+
+  '.two-col{display:grid;grid-template-columns:1fr 260px;gap:16px;align-items:start}'+
+  '/* FOOTER */'+
+  '.footer{margin-top:24px;padding-top:12px;border-top:1px solid #E2E8F0;display:flex;justify-content:space-between;align-items:center;font-size:10px;color:#94A3B8}'+
+  '@media print{body{-webkit-print-color-adjust:exact;print-color-adjust:exact}@page{margin:1.2cm;size:A4}.page{padding:0}.no-print{display:none!important}}'+
+  '</style></head><body><div class="page">'+
+
+  // HEADER
+  '<div class="hdr">'+
+  '<div class="hdr-left">'+logoHtml+
+  '<div class="hdr-title"><h1>Informe de Composición Corporal</h1><p>Faulkner · Yuhasz · Rocha · Carter-Heath · Somatocarta</p></div>'+
+  '</div>'+
+  '<div class="hdr-right">'+
+  '<div>Fecha: <strong style="color:#fff;opacity:1">'+fecha+'</strong></div>'+
+  '<div>Generado: <strong style="color:#fff;opacity:1">'+new Date().toLocaleDateString('es-CO',{day:'2-digit',month:'long',year:'numeric'})+'</strong></div>'+
+  '</div></div>'+
+
+  // DATOS PERSONALES
+  '<div class="section">'+
+  '<div class="section-title">👤 Datos del Evaluado</div>'+
+  '<div class="grid g4">'+
+  '<div class="dbox"><div class="lbl">Nombre</div><div class="val" style="font-size:13px;font-family:DM Sans,sans-serif">'+nombre+'</div></div>'+
+  '<div class="dbox"><div class="lbl">Sexo</div><div class="val" style="font-size:13px;font-family:DM Sans,sans-serif">'+(sexo==='masculino'?'♂ Masculino':'♀ Femenino')+'</div></div>'+
+  '<div class="dbox"><div class="lbl">Edad</div><div class="val">'+edad+'<span style="font-size:11px;font-weight:400"> años</span></div></div>'+
+  '<div class="dbox"><div class="lbl">Peso · Estatura</div><div class="val" style="font-size:13px">'+(r.peso||'—')+' kg · '+(r.estatura?r.estatura+' cm':'—')+'</div></div>'+
+  '</div></div>'+
+
+  // % GRASA Y COMPOSICIÓN
+  '<div class="section">'+
+  '<div class="section-title">📊 Composición Corporal</div>'+
+  '<div class="grid g4" style="margin-bottom:8px">'+
+  '<div class="dbox"><div class="lbl">% Grasa Faulkner</div><div class="val">'+(r.grasaFaulkner||'—')+'<span style="font-size:11px;font-weight:400"> %</span></div></div>'+
+  '<div class="dbox"><div class="lbl">% Grasa Yuhasz</div><div class="val">'+(r.grasaYuhasz||'—')+'<span style="font-size:11px;font-weight:400"> %</span></div></div>'+
+  '<div class="dbox"><div class="lbl">Peso Graso</div><div class="val">'+(r.pesoGraso||'—')+'<span style="font-size:11px;font-weight:400"> kg</span></div></div>'+
+  '<div class="dbox"><div class="lbl">Peso Muscular</div><div class="val">'+(r.pesoMuscular||'—')+'<span style="font-size:11px;font-weight:400"> kg</span></div></div>'+
+  '</div>'+
+  '<div class="grid g3">'+
+  '<div class="dbox"><div class="lbl">Masa Ósea</div><div class="val">'+(r.masaOsea||'—')+'<span style="font-size:11px;font-weight:400"> kg</span></div></div>'+
+  '<div class="dbox"><div class="lbl">Masa Residual</div><div class="val">'+(r.masaResidual||'—')+'<span style="font-size:11px;font-weight:400"> kg</span></div></div>'+
+  '<div class="dbox" style="background:#EFF6FF;border-color:#BFDBFE"><div class="lbl">Índice Ponderal</div><div class="val" style="color:#1D4ED8">'+(r.Y||'—')+'</div><div class="sub">Ectomorfía base</div></div>'+
+  '</div>'+
+  (barHtml ? '<div style="margin-top:10px">'+barHtml+'</div>' : '')+
+  '</div>'+
+
+  // SOMATOTIPO
+  '<div class="section">'+
+  '<div class="section-title">🧬 Somatotipo</div>'+
+  '<div class="two-col">'+
+  '<div>'+
+  '<div class="soma-tag" style="background:'+somaData.bg+';border-color:'+(somaData.brd||'#CBD5E1')+';color:'+somaData.tc+'">'+
+  '<div class="icon">'+somaData.icon+'</div>'+
+  '<div style="flex:1">'+
+  '<div class="nm">'+somaData.nm+'</div>'+
+  '<div class="group-badge">Grupo: '+somaData.nm+'</div>'+
+  '<div class="desc">'+somaData.desc+'</div>'+
+  (r.endomorphy?'<div class="soma-vals">'+parseFloat(r.endomorphy).toFixed(1)+' — '+parseFloat(r.mesomorphy).toFixed(1)+' — '+parseFloat(r.ectomorphy).toFixed(1)+'<span>Endomorfía — Mesomorfía — Ectomorfía</span></div>':'')+'</div></div>'+
+  '<div class="grid g3" style="margin-bottom:8px">'+
+  '<div class="dbox" style="background:#FEF2F2;border-color:#FCA5A5"><div class="lbl" style="color:#DC2626">Endomorfía</div><div class="val" style="color:#991B1B">'+(r.endomorphy||'—')+'</div></div>'+
+  '<div class="dbox" style="background:#F0FDF4;border-color:#86EFAC"><div class="lbl" style="color:#16A34A">Mesomorfía</div><div class="val" style="color:#14532D">'+(r.mesomorphy||'—')+'</div></div>'+
+  '<div class="dbox" style="background:#EFF6FF;border-color:#93C5FD"><div class="lbl" style="color:#1D4ED8">Ectomorfía</div><div class="val" style="color:#1E3A8A">'+(r.ectomorphy||'—')+'</div></div>'+
+  '</div>'+
+  '<div style="display:flex;flex-direction:column;gap:7px">'+
+  '<div class="icard" style="border-left-color:#3B82F6"><div class="ic-title">🎯 Características</div><div class="ic-txt">'+somaData.char+'</div></div>'+
+  '<div class="icard" style="border-left-color:#16A34A"><div class="ic-title">🏅 Deportes afines</div><div class="ic-txt">'+somaData.sport+'</div></div>'+
+  '<div class="icard" style="border-left-color:#F59E0B"><div class="ic-title">💡 Recomendación</div><div class="ic-txt">'+somaData.rec+'</div></div>'+
+  '</div>'+
+  '</div>'+
+  (canvasImg?'<div class="canvas-wrap"><div style="font-size:10px;font-weight:700;color:#64748B;text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px">Somatocarta</div><img src="'+canvasImg+'"></div>':'<div></div>')+
+  '</div></div>'+
+
+  // FOOTER
+  '<div class="footer">'+
+  '<div>Composición Corporal & Somatotipo — Métodos: Faulkner, Yuhasz, Rocha, Carter & Heath</div>'+
+  '<div>'+nombre+' · '+fecha+'</div>'+
+  '</div>'+
+
+  '</div>'+
+  '<div class="no-print" style="position:fixed;bottom:20px;right:20px;display:flex;gap:8px">'+
+  '<button onclick="window.print()" style="padding:10px 20px;background:#1D4ED8;color:#fff;border:none;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;font-family:DM Sans,sans-serif">🖨️ Imprimir / Guardar PDF</button>'+
+  '<button onclick="window.close()" style="padding:10px 18px;background:#475569;color:#fff;border:none;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;font-family:DM Sans,sans-serif">✕ Cerrar</button>'+
+  '</div>'+
+  '</body></html>';
+
+  var pw = window.open('','_blank','width=860,height=700,scrollbars=yes');
+  if(!pw){ alert('Permite las ventanas emergentes para ver el informe.'); return; }
+  pw.document.write(html);
+  pw.document.close();
+  pw.focus();
+}
+
+// ══════════════ ADMIN ══════════════
+function openAdmin(){
+  document.getElementById('ov-admin').classList.add('open');
+  refreshUrlDisplay();
+  if(!adminIn){
+    document.getElementById('login-gate').style.display='block';
+    document.getElementById('admin-content').classList.add('hidden');
+    document.getElementById('btn-logout').classList.add('hidden');
+    document.getElementById('admin-pwd').value='';
+    document.getElementById('login-err').textContent='';
+    setTimeout(function(){document.getElementById('admin-pwd').focus();},100);
+  }
+}
+function closeAdmin(){document.getElementById('ov-admin').classList.remove('open');}
+
+function doLogout(){
+  adminIn=false;
+  document.getElementById('login-gate').style.display='block';
+  document.getElementById('admin-content').classList.add('hidden');
+  document.getElementById('btn-logout').classList.add('hidden');
+  document.getElementById('url-display-box').classList.add('hidden');
+  document.getElementById('btn-sync').classList.add('hidden');
+  document.getElementById('btn-instrucciones').classList.add('hidden');
+  document.getElementById('setup-box').classList.add('hidden');
+  document.getElementById('admin-pwd').value='';
+  document.getElementById('login-err').textContent='';
+  setTimeout(function(){document.getElementById('admin-pwd').focus();},100);
+}
+
+function doLogin(){
+  var v=document.getElementById('admin-pwd').value;
+  if(v===ADMIN_PWD){
+    adminIn=true;
+    document.getElementById('login-gate').style.display='none';
+    document.getElementById('admin-content').classList.remove('hidden');
+    document.getElementById('btn-logout').classList.remove('hidden');
+    document.getElementById('cfg-url').value=SCRIPT_URL||'';
+    document.getElementById('url-display-box').classList.remove('hidden');
+    // Mostrar botones solo-admin en la tarjeta principal
+    document.getElementById('btn-sync').classList.remove('hidden');
+    document.getElementById('btn-instrucciones').classList.remove('hidden');
+    // Actualizar preview de logo en panel admin
+    var saved = localStorage.getItem('cc_logo');
+    var prev = document.getElementById('logo-preview-admin');
+    if(saved){ prev.innerHTML='<img src="'+saved+'" style="width:100%;height:100%;object-fit:contain;">'; }
+    else { prev.innerHTML='<span style="font-size:1.6rem">🏋️</span>'; }
+  } else {
+    document.getElementById('login-err').textContent='Contraseña incorrecta. Inténtalo de nuevo.';
+    document.getElementById('admin-pwd').value='';
+    document.getElementById('admin-pwd').focus();
+  }
+}
+
+function saveUrl(){
+  var v=document.getElementById('cfg-url').value.trim();
+  if(!v||!v.startsWith('https://')){
+    setMsg('cfg-url-msg','<div class="alert alert-err">⚠️ URL inválida. Debe comenzar con https://</div>',5000);
+    return;
+  }
+  SCRIPT_URL=v;
+  localStorage.setItem('cc_script_url', v);
+  refreshUrlDisplay();
+  setMsg('cfg-url-msg','<div class="alert alert-ok">✅ URL guardada correctamente. Se usará en esta y futuras sesiones.</div>',6000);
+}
+
+function changePwd(){
+  var cur=document.getElementById('pwd-cur').value;
+  var nw=document.getElementById('pwd-new').value;
+  var sp=document.getElementById('pwd-msg');
+  if(cur!==ADMIN_PWD){sp.style.color='#DC2626';sp.textContent='Contraseña actual incorrecta.';return;}
+  if(nw.length<4){sp.style.color='#DC2626';sp.textContent='Mínimo 4 caracteres.';return;}
+  ADMIN_PWD=nw;
+  localStorage.setItem('cc_admin_pwd', nw);
+  document.getElementById('pwd-cur').value='';
+  document.getElementById('pwd-new').value='';
+  sp.style.color='#16A34A'; sp.textContent='✓ Contraseña actualizada y guardada.';
+}
+
+// ══════════════ LOGO ══════════════
+function applyLogo(dataUrl){
+  var hdr = document.getElementById('hdr-logo');
+  if(dataUrl){
+    hdr.innerHTML='<img src="'+dataUrl+'" style="width:48px;height:48px;object-fit:contain;border-radius:6px;">';
+  } else {
+    hdr.innerHTML='🏋️';
+    hdr.style.fontSize='2rem';
+  }
+}
+
+function handleLogoUpload(evt){
+  var file = evt.target.files[0];
+  if(!file) return;
+  if(file.size > 500*1024){
+    setMsg('logo-msg','<div class="alert alert-err">⚠️ La imagen es demasiado grande. Máximo 500 KB.</div>',5000);
+    return;
+  }
+  var reader = new FileReader();
+  reader.onload = function(e){
+    var data = e.target.result;
+    applyLogo(data);
+    document.getElementById('logo-preview-admin').innerHTML='<img src="'+data+'" style="width:100%;height:100%;object-fit:contain;">';
+    localStorage.setItem('cc_logo', data);
+    setMsg('logo-msg','<div class="alert alert-ok">✅ Logo guardado localmente.</div>',4000);
+  };
+  reader.readAsDataURL(file);
+}
+
+function removeLogo(){
+  applyLogo(null);
+  document.getElementById('logo-preview-admin').innerHTML='<span style="font-size:1.6rem">🏋️</span>';
+  document.getElementById('logo-input').value='';
+  localStorage.removeItem('cc_logo');
+  setMsg('logo-msg','<div class="alert alert-ok">✅ Logo eliminado.</div>',4000);
+}
+
+function switchTab(id,btn){
+  document.querySelectorAll('.apanel').forEach(function(p){p.classList.remove('active');});
+  document.querySelectorAll('.atab').forEach(function(b){b.classList.remove('active');});
+  document.getElementById('ap-'+id).classList.add('active');
+  btn.classList.add('active');
+  // Auto-cargar registros al entrar a la pestaña
+  if(id==='records') loadRecords();
+}
+
+// ══════════════ RECORDS ══════════════
+async function loadRecords(){
+  if(!SCRIPT_URL){
+    setMsg('rec-msg','<div class="alert alert-err">⚠️ Sin URL configurada.</div>',5000);
+    return;
+  }
+  var lb=document.getElementById('btn-load');
+  if(lb){ lb.disabled=true; lb.innerHTML='<span class="spinner" style="border-top-color:#fff"></span> Cargando…'; }
+  setMsg('rec-msg','<div class="alert alert-info">⏳ Consultando Google Sheets…</div>');
+  document.getElementById('rec-container').innerHTML='';
+
+  try {
+    var data = await jsonpGet(SCRIPT_URL+'?action=getAll');
+    if(data.status==='ok'){
+      allRecs=data.data||[];
+      renderRecs(allRecs);
+      document.getElementById('rec-msg').innerHTML='';
+      document.getElementById('rec-count').textContent=allRecs.length+' registros';
+    } else {
+      throw new Error(data.message||'Respuesta inesperada');
+    }
+  } catch(e) {
+    setMsg('rec-msg','<div class="alert alert-err">❌ '+e.message+'<br><small>Verifica que el script esté implementado con acceso <strong>"Cualquier persona"</strong> y que el código de Apps Script esté actualizado (ver Instrucciones).</small></div>');
+    document.getElementById('rec-container').innerHTML='<div class="empty">No se pudieron cargar los registros.</div>';
+  }
+
+  if(lb){ lb.disabled=false; lb.innerHTML='📥 Cargar registros'; }
+}
+
+function filterRec(){
+  var q=document.getElementById('rec-search').value.toLowerCase();
+  var f=allRecs.filter(function(r){return (r['Nombre']||r.nombre||'').toString().toLowerCase().includes(q);});
+  renderRecs(f);
+  document.getElementById('rec-count').textContent=f.length+'/'+allRecs.length;
+}
+
+function renderRecs(recs){
+  var c=document.getElementById('rec-container');
+  if(!recs.length){c.innerHTML='<div class="empty">Sin registros para mostrar.</div>';return;}
+  var cols=['Nombre','Sexo','Fecha','Peso(kg)','Estatura(cm)','%Grasa Faulkner','Endomorfía','Mesomorfía','Ectomorfía','Somatotipo'];
+  var h='<div class="rtable-wrap"><table class="rtable"><thead><tr>';
+  cols.forEach(function(col){h+='<th>'+col+'</th>';});
+  h+='<th style="text-align:center;min-width:130px">Acciones</th></tr></thead><tbody>';
+  recs.forEach(function(r,i){
+    h+='<tr>';
+    cols.forEach(function(col){
+      var v=r[col];
+      h+='<td>'+(v!==undefined&&v!==null&&v!==''?v:'—')+'</td>';
+    });
+    h+='<td style="text-align:center;white-space:nowrap">';
+    h+='<button class="btn btn-outline btn-sm btn-icon" title="Cargar todos los datos en formulario" onclick="loadIntoForm('+i+')" style="font-size:.8rem">📋</button> ';
+    h+='<button class="btn btn-sync btn-sm btn-icon" title="Ver informe / imprimir" onclick="printRec('+i+')" style="font-size:.8rem">🖨️</button> ';
+    h+='<button class="btn btn-primary btn-sm btn-icon" title="Editar" onclick="openEdit('+i+')" style="font-size:.8rem">✏️</button> ';
+    h+='<button class="btn btn-danger btn-sm btn-icon" title="Eliminar" onclick="askDelete('+i+')" style="font-size:.8rem">🗑️</button>';
+    h+='</td></tr>';
+  });
+  h+='</tbody></table></div>';
+  c.innerHTML=h;
+}
+
+function printRec(i){
+  var r=allRecs[i]; if(!r)return;
+  // Llenar datos temporalmente para generar el informe
+  var prevNombre=document.getElementById('nombre').value;
+  var prevSexo=document.getElementById('sexo').value;
+  var prevEdad=document.getElementById('edad').value;
+  var prevFecha=document.getElementById('fecha').value;
+  // Cargar datos del registro
+  loadIntoForm(i);
+  // Esperar a que calc() termine y lanzar impresión
+  setTimeout(function(){
+    doPrint();
+    // Restaurar si el usuario no quería sobreescribir
+  },150);
+}
+
+function setTomaVal(tbodyId, store, key, t1, t2){
+  var tbody = document.getElementById(tbodyId);
+  if(!tbody) return;
+  var row = tbody.querySelector('tr[data-key="'+key+'"]');
+  if(!row) return;
+  var inputs = row.querySelectorAll('input.toma');
+  var v1 = (t1!==''&&t1!==null&&t1!==undefined) ? parseFloat(t1) : null;
+  var v2 = (t2!==''&&t2!==null&&t2!==undefined) ? parseFloat(t2) : null;
+  if(inputs[0]){ inputs[0].value = v1!==null?v1:''; store[key][0]=v1; }
+  if(inputs[1]){ inputs[1].value = v2!==null?v2:''; store[key][1]=v2; }
+  var av = avg2(v1, v2);
+  var avgCell = row.querySelector('.avg-cell');
+  if(avgCell) avgCell.textContent = av!==null?av.toFixed(2):'—';
+}
+
+function loadIntoForm(i){
+  var r=allRecs[i]; if(!r)return;
+  // Datos generales
+  document.getElementById('nombre').value = r['Nombre']||r.nombre||'';
+  document.getElementById('sexo').value   = (r['Sexo']||r.sexo||'masculino').toLowerCase();
+  document.getElementById('edad').value   = r['Edad']||r.edad||'';
+  document.getElementById('fecha').value  = r['Fecha']||r.fecha||'';
+  // Pliegues
+  setTomaVal('tbody-pl', pl, 'subescapular',   r['Subescapular_t1'],   r['Subescapular_t2']);
+  setTomaVal('tbody-pl', pl, 'tricipital',      r['Tricipital_t1'],     r['Tricipital_t2']);
+  setTomaVal('tbody-pl', pl, 'musloAnterior',   r['MusloAnterior_t1'],  r['MusloAnterior_t2']);
+  setTomaVal('tbody-pl', pl, 'pierna',          r['Pierna_t1'],         r['Pierna_t2']);
+  setTomaVal('tbody-pl', pl, 'suprailíaco',     r['Suprailiaco_t1'],    r['Suprailiaco_t2']);
+  setTomaVal('tbody-pl', pl, 'abdominal',       r['Abdominal_t1'],      r['Abdominal_t2']);
+  setTomaVal('tbody-pl', pl, 'supraespinal',    r['Supraespinal_t1'],   r['Supraespinal_t2']);
+  // Diámetros
+  setTomaVal('tbody-an-d', an, 'dEstiloideo',        r['dEstiloideo_t1'],      r['dEstiloideo_t2']);
+  setTomaVal('tbody-an-d', an, 'dBicondiloFemur',    r['dBicondiloFemur_t1'],  r['dBicondiloFemur_t2']);
+  setTomaVal('tbody-an-d', an, 'dBiepicondilarHumero',r['dBiepicondilarH_t1'], r['dBiepicondilarH_t2']);
+  // Perímetros y básicos
+  setTomaVal('tbody-an-p', an, 'estatura',       r['Estatura_t1(cm)']||r['Estatura_t1'], r['Estatura_t2(cm)']||r['Estatura_t2']);
+  setTomaVal('tbody-an-p', an, 'peso',           r['Peso_t1(kg)']||r['Peso_t1'],         r['Peso_t2(kg)']||r['Peso_t2']);
+  setTomaVal('tbody-an-p', an, 'pBrazoContraido',r['pBrazo_t1'],   r['pBrazo_t2']);
+  setTomaVal('tbody-an-p', an, 'pPierna',        r['pPierna_t1'],  r['pPierna_t2']);
+  calc();
+  closeAdmin();
+  window.scrollTo({top:0,behavior:'smooth'});
+  setMsg('save-msg','<div class="alert alert-ok">📥 Todos los datos de <strong>'+(r['Nombre']||'evaluado')+'</strong> cargados correctamente en el formulario.</div>',6000);
+}
+
+function setEf(id, val){ var el=document.getElementById(id); if(el) el.value=(val!==undefined&&val!==null&&val!=='')?val:''; }
+
+function openEdit(i){
+  var r=allRecs[i]; if(!r)return;
+  editIdx=i; editDirty=false;
+  // Datos generales
+  setEf('e-nombre', r['Nombre']);
+  document.getElementById('e-sexo').value=(r['Sexo']||'masculino').toLowerCase();
+  setEf('e-edad', r['Edad']);
+  setEf('e-fecha', r['Fecha']);
+  // Peso/talla
+  setEf('e-an-peso-t1',     r['Peso_t1(kg)']||r['an_peso_t1']);
+  setEf('e-an-peso-t2',     r['Peso_t2(kg)']||r['an_peso_t2']);
+  setEf('e-peso',            r['Peso(kg)']);
+  setEf('e-an-estatura-t1', r['Estatura_t1(cm)']||r['an_estatura_t1']);
+  setEf('e-an-estatura-t2', r['Estatura_t2(cm)']||r['an_estatura_t2']);
+  setEf('e-estatura',        r['Estatura(cm)']);
+  // Pliegues
+  setEf('e-pl-subescapular-t1', r['Subescapular_t1']);
+  setEf('e-pl-subescapular-t2', r['Subescapular_t2']);
+  setEf('e-pl-tricipital-t1',   r['Tricipital_t1']);
+  setEf('e-pl-tricipital-t2',   r['Tricipital_t2']);
+  setEf('e-pl-muslo-t1',        r['MusloAnterior_t1']);
+  setEf('e-pl-muslo-t2',        r['MusloAnterior_t2']);
+  setEf('e-pl-pierna-t1',       r['Pierna_t1']);
+  setEf('e-pl-pierna-t2',       r['Pierna_t2']);
+  setEf('e-pl-suprailiaco-t1',  r['Suprailiaco_t1']);
+  setEf('e-pl-suprailiaco-t2',  r['Suprailiaco_t2']);
+  setEf('e-pl-abdominal-t1',    r['Abdominal_t1']);
+  setEf('e-pl-abdominal-t2',    r['Abdominal_t2']);
+  setEf('e-pl-supraespinal-t1', r['Supraespinal_t1']);
+  setEf('e-pl-supraespinal-t2', r['Supraespinal_t2']);
+  // Diámetros
+  setEf('e-an-estiloideo-t1', r['dEstiloideo_t1']);
+  setEf('e-an-estiloideo-t2', r['dEstiloideo_t2']);
+  setEf('e-an-femur-t1',      r['dBicondiloFemur_t1']);
+  setEf('e-an-femur-t2',      r['dBicondiloFemur_t2']);
+  setEf('e-an-humero-t1',     r['dBiepicondilarH_t1']);
+  setEf('e-an-humero-t2',     r['dBiepicondilarH_t2']);
+  // Perímetros
+  setEf('e-an-brazo-t1',   r['pBrazo_t1']);
+  setEf('e-an-brazo-t2',   r['pBrazo_t2']);
+  setEf('e-an-pierna-t1',  r['pPierna_t1']);
+  setEf('e-an-pierna-t2',  r['pPierna_t2']);
+  // Resultados
+  setEf('e-gF',    r['%Grasa Faulkner']);
+  setEf('e-gY',    r['%Grasa Yuhasz']);
+  setEf('e-endo',  r['Endomorfía']);
+  setEf('e-meso',  r['Mesomorfía']);
+  setEf('e-ecto',  r['Ectomorfía']);
+  setEf('e-class', r['Somatotipo']);
+  // Reset dirty state → botón deshabilitado
+  var btn=document.getElementById('btn-save-edit');
+  if(btn){btn.disabled=true;btn.style.opacity='0.45';btn.innerHTML='💾 Guardar Cambios';}
+  document.getElementById('edit-msg').innerHTML='';
+  document.getElementById('ov-edit').classList.add('open');
+}
+function closeEdit(){document.getElementById('ov-edit').classList.remove('open');editIdx=null;editDirty=false;}
+
+var editDirty = false;
+
+function markEditDirty(){
+  editDirty = true;
+  var btn = document.getElementById('btn-save-edit');
+  if(btn){ btn.disabled=false; btn.style.opacity='1'; }
+}
+
+async function saveEdit(){
+  if(editIdx===null)return;
+  if(!SCRIPT_URL){setMsg('edit-msg','<div class="alert alert-err">Sin URL configurada.</div>',5000);return;}
+  var r=allRecs[editIdx];
+  var payload={
+    action:'update', _row:r._row,
+    nombre:document.getElementById('e-nombre').value,
+    sexo:document.getElementById('e-sexo').value,
+    edad:document.getElementById('e-edad').value,
+    fecha:document.getElementById('e-fecha').value,
+    peso:document.getElementById('e-peso').value,
+    estatura:document.getElementById('e-estatura').value,
+    grasaFaulkner:document.getElementById('e-gF').value,
+    grasaYuhasz:document.getElementById('e-gY').value,
+    endomorphy:document.getElementById('e-endo').value,
+    mesomorphy:document.getElementById('e-meso').value,
+    ectomorphy:document.getElementById('e-ecto').value,
+    classification:document.getElementById('e-class').value,
+    // Pliegues
+    pl_subescapular_t1:document.getElementById('e-pl-subescapular-t1').value,
+    pl_subescapular_t2:document.getElementById('e-pl-subescapular-t2').value,
+    pl_tricipital_t1:document.getElementById('e-pl-tricipital-t1').value,
+    pl_tricipital_t2:document.getElementById('e-pl-tricipital-t2').value,
+    pl_musloAnterior_t1:document.getElementById('e-pl-muslo-t1').value,
+    pl_musloAnterior_t2:document.getElementById('e-pl-muslo-t2').value,
+    pl_pierna_t1:document.getElementById('e-pl-pierna-t1').value,
+    pl_pierna_t2:document.getElementById('e-pl-pierna-t2').value,
+    pl_suprailiaco_t1:document.getElementById('e-pl-suprailiaco-t1').value,
+    pl_suprailiaco_t2:document.getElementById('e-pl-suprailiaco-t2').value,
+    pl_abdominal_t1:document.getElementById('e-pl-abdominal-t1').value,
+    pl_abdominal_t2:document.getElementById('e-pl-abdominal-t2').value,
+    pl_supraespinal_t1:document.getElementById('e-pl-supraespinal-t1').value,
+    pl_supraespinal_t2:document.getElementById('e-pl-supraespinal-t2').value,
+    // Diámetros
+    an_dEstiloideo_t1:document.getElementById('e-an-estiloideo-t1').value,
+    an_dEstiloideo_t2:document.getElementById('e-an-estiloideo-t2').value,
+    an_dBicondiloFemur_t1:document.getElementById('e-an-femur-t1').value,
+    an_dBicondiloFemur_t2:document.getElementById('e-an-femur-t2').value,
+    an_dBiepicondilarH_t1:document.getElementById('e-an-humero-t1').value,
+    an_dBiepicondilarH_t2:document.getElementById('e-an-humero-t2').value,
+    // Perímetros
+    an_peso_t1:document.getElementById('e-an-peso-t1').value,
+    an_peso_t2:document.getElementById('e-an-peso-t2').value,
+    an_estatura_t1:document.getElementById('e-an-estatura-t1').value,
+    an_estatura_t2:document.getElementById('e-an-estatura-t2').value,
+    an_pBrazo_t1:document.getElementById('e-an-brazo-t1').value,
+    an_pBrazo_t2:document.getElementById('e-an-brazo-t2').value,
+    an_pPierna_t1:document.getElementById('e-an-pierna-t1').value,
+    an_pPierna_t2:document.getElementById('e-an-pierna-t2').value
+  };
+  var btn=document.getElementById('btn-save-edit');
+  if(btn){btn.disabled=true;btn.innerHTML='<span class="spinner"></span> Guardando…';}
+  setMsg('edit-msg','<div class="alert alert-info">⏳ Guardando cambios…</div>');
+  try{
+    await fetch(SCRIPT_URL,{method:'POST',mode:'no-cors',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)});
+    // Actualizar local inmediatamente
+    allRecs[editIdx] = Object.assign(allRecs[editIdx], {
+      'Nombre':payload.nombre,'Sexo':payload.sexo,'Edad':payload.edad,'Fecha':payload.fecha,
+      'Peso(kg)':payload.peso,'Estatura(cm)':payload.estatura,
+      '%Grasa Faulkner':payload.grasaFaulkner,'%Grasa Yuhasz':payload.grasaYuhasz,
+      'Endomorfía':payload.endomorphy,'Mesomorfía':payload.mesomorphy,'Ectomorfía':payload.ectomorphy,
+      'Somatotipo':payload.classification
+    });
+    renderRecs(allRecs);
+    editDirty=false;
+    setMsg('edit-msg','<div class="alert alert-ok">✅ Cambios guardados y lista actualizada.</div>');
+    setTimeout(function(){closeEdit();loadRecords();},1800);
+  }catch(e){
+    setMsg('edit-msg','<div class="alert alert-err">❌ '+e.message+'</div>');
+    if(btn){btn.disabled=false;btn.innerHTML='💾 Guardar Cambios';}
+  }
+}
+
+function askDelete(i){
+  var r=allRecs[i];
+  document.getElementById('cf-title').textContent='¿Eliminar registro?';
+  document.getElementById('cf-msg').innerHTML='Se eliminará el registro de <strong>'+(r['Nombre']||'este evaluado')+'</strong>. Esta acción no se puede deshacer.';
+  cfCb=function(){deleteRec(i);};
+  document.getElementById('ov-confirm').classList.add('open');
+}
+function closeConfirm(){document.getElementById('ov-confirm').classList.remove('open');cfCb=null;}
+function doConfirm(){closeConfirm();if(cfCb)cfCb();}
+
+async function deleteRec(i){
+  var r=allRecs[i]; if(!r||!SCRIPT_URL)return;
+  // Eliminación optimista inmediata
+  allRecs.splice(i,1);
+  renderRecs(allRecs);
+  document.getElementById('rec-count').textContent=allRecs.length+' registros';
+  setMsg('rec-msg','<div class="alert alert-info">🗑️ Eliminando registro…</div>');
+  try{
+    await fetch(SCRIPT_URL,{method:'POST',mode:'no-cors',headers:{'Content-Type':'application/json'},body:JSON.stringify({action:'delete',_row:r._row})});
+    setMsg('rec-msg','<div class="alert alert-ok">✅ Registro eliminado correctamente.</div>',4000);
+    // Recargar desde servidor para confirmar sincronía
+    setTimeout(function(){ loadRecords(); }, 1500);
+  }catch(e){
+    setMsg('rec-msg','<div class="alert alert-err">❌ '+e.message+'</div>',6000);
+  }
+}
+
+// ══════════════ TABLE BIND ══════════════
+function bindTableRows(){
+  [{tbody:'tbody-pl',store:pl},{tbody:'tbody-an-d',store:an},{tbody:'tbody-an-p',store:an}].forEach(function(t){
+    document.getElementById(t.tbody).querySelectorAll('tr').forEach(function(row){
+      var key=row.getAttribute('data-key'); if(!key)return;
+      row.querySelectorAll('input.toma').forEach(function(inp){
+        inp.addEventListener('input',function(){
+          var idx=parseInt(this.getAttribute('data-idx'));
+          var v=this.value.trim()===''?null:parseFloat(this.value);
+          t.store[key][idx]=v;
+          var av=avg2(t.store[key][0],t.store[key][1]);
+          row.querySelector('.avg-cell').textContent=av!==null?av.toFixed(2):'—';
+          calc();
+        });
+      });
+    });
+  });
+}
+
+// ══════════════ SOMATOTYPE DATA (13 tipos — Carter & Heath) ══════════════
+var SOMA={
+  "Central":{
+    icon:"⚖️",bg:"#F3F4F6",brd:"#9CA3AF",tc:"#374151",
+    nm:"Central",
+    desc:"Ningún componente difiere en más de una unidad de los otros dos, con rating de 2, 3 o 4.",
+    char:"Morfología equilibrada, sin dominancia de ningún componente.",
+    sport:"Versátil para múltiples disciplinas deportivas.",
+    rec:"Trabajo mixto de fuerza, resistencia y flexibilidad."
+  },
+  "Endo-ectomórfico":{
+    icon:"🟡",bg:"#FEFCE8",brd:"#FDE68A",tc:"#78350F",
+    nm:"Endo-ectomórfico",
+    desc:"El endomorfismo es dominante y el ectomorfismo es mayor que el mesomorfismo.",
+    char:"Estructura alargada con tendencia a acumular grasa; poca masa muscular relativa.",
+    sport:"Deportes de resistencia y acuáticos con adaptación.",
+    rec:"Incrementar actividad física. Entrenamiento de fuerza para ganar músculo."
+  },
+  "Endomorfismo balanceado":{
+    icon:"🔴",bg:"#FEF2F2",brd:"#FCA5A5",tc:"#991B1B",
+    nm:"Endomorfismo balanceado",
+    desc:"El endomorfismo es dominante y el mesomorfismo y ectomorfismo son iguales (no difieren en más de 0.5).",
+    char:"Cuerpo redondeado con acumulación predominante de grasa.",
+    sport:"Halterofilia, lucha, deportes de combate.",
+    rec:"Ejercicio aeróbico prolongado. Control de ingesta calórica."
+  },
+  "Endo-mesomórfico":{
+    icon:"🟠",bg:"#FFF7ED",brd:"#FDBA74",tc:"#92400E",
+    nm:"Endo-mesomórfico",
+    desc:"El endomorfismo es dominante y el mesomorfismo es mayor que el ectomorfismo.",
+    char:"Complexión robusta y musculosa con tendencia a grasa.",
+    sport:"Rugby, lanzamientos, deportes de contacto.",
+    rec:"Fuerza + cardio moderado para controlar el porcentaje graso."
+  },
+  "Endomorfo-mesomorfo":{
+    icon:"🍊",bg:"#FFF7ED",brd:"#FDC97D",tc:"#7C2D12",
+    nm:"Endomorfo-mesomorfo",
+    desc:"El endomorfismo y el mesomorfismo son iguales (no difieren en más de 0.5), y el ectomorfismo es menor.",
+    char:"Cuerpo robusto con alta masa muscular y tendencia a grasa.",
+    sport:"Lanzamientos, rugby, deportes de fuerza explosiva.",
+    rec:"Cardio sostenido + fuerza. Vigilar composición corporal."
+  },
+  "Meso-endomórfico":{
+    icon:"💚",bg:"#F0FDF4",brd:"#6EE7B7",tc:"#065F46",
+    nm:"Meso-endomórfico",
+    desc:"El mesomorfismo es dominante y el endomorfismo es mayor que el ectomorfismo.",
+    char:"Musculoso con tendencia moderada a acumular grasa.",
+    sport:"Lanzamientos, rugby, deportes de fuerza.",
+    rec:"Fuerza + cardio para controlar el porcentaje graso."
+  },
+  "Mesomorfismo balanceado":{
+    icon:"🟢",bg:"#F0FDF4",brd:"#86EFAC",tc:"#14532D",
+    nm:"Mesomorfismo balanceado",
+    desc:"El mesomorfismo es dominante y el endomorfismo y ectomorfismo son iguales (no difieren en más de 0.5).",
+    char:"Alta masa muscular, bajo porcentaje graso. Perfil atlético ideal.",
+    sport:"Atletismo, natación, gimnasia, deportes de equipo.",
+    rec:"Mantener el perfil. Periodizar según ciclo competitivo."
+  },
+  "Meso-ectomórfico":{
+    icon:"💙",bg:"#EFF6FF",brd:"#93C5FD",tc:"#1E3A8A",
+    nm:"Meso-ectomórfico",
+    desc:"El mesomorfismo es dominante y el ectomorfismo es mayor que el endomorfismo.",
+    char:"Musculoso y estilizado con bajo porcentaje graso.",
+    sport:"Natación, atletismo, baloncesto, voleibol.",
+    rec:"Deportes de resistencia-fuerza. Ingesta calórica adecuada."
+  },
+  "Ectomorfo-mesomorfo":{
+    icon:"💜",bg:"#F5F3FF",brd:"#C4B5FD",tc:"#4C1D95",
+    nm:"Ectomorfo-mesomorfo",
+    desc:"El ectomorfismo y el mesomorfismo son iguales (no difieren en más de 0.5), y el endomorfismo es menor.",
+    char:"Estructura lineal con buena definición muscular.",
+    sport:"Atletismo de fondo, natación, ciclismo.",
+    rec:"Mantener masa muscular. Monitorear ingesta calórica."
+  },
+  "Ecto-mesomórfico":{
+    icon:"🔷",bg:"#EFF6FF",brd:"#BFDBFE",tc:"#1D4ED8",
+    nm:"Ecto-mesomórfico",
+    desc:"El ectomorfismo es dominante y el mesomorfismo es mayor que el endomorfismo.",
+    char:"Estructura lineal con buena masa muscular relativa.",
+    sport:"Atletismo, natación, ciclismo, remo.",
+    rec:"Mantener masa muscular. Dieta normocalórica."
+  },
+  "Ectomorfismo balanceado":{
+    icon:"🔵",bg:"#EFF6FF",brd:"#93C5FD",tc:"#1D4ED8",
+    nm:"Ectomorfismo balanceado",
+    desc:"El ectomorfismo es dominante; el endomorfismo y el mesomorfismo son iguales y menores (no difieren en más de 0.5).",
+    char:"Estructura lineal y delgada, bajo peso relativo.",
+    sport:"Maratón, ciclismo, remo, triatlón.",
+    rec:"Entrenamiento de fuerza. Dieta hipercalórica para ganar masa."
+  },
+  "Ecto-endomórfico":{
+    icon:"⚪",bg:"#F9FAFB",brd:"#D1D5DB",tc:"#374151",
+    nm:"Ecto-endomórfico",
+    desc:"El ectomorfismo es dominante, y el endomorfismo es mayor que el mesomorfismo.",
+    char:"Estructura alargada con algo de grasa y poca masa muscular.",
+    sport:"Deportes acuáticos y de resistencia.",
+    rec:"Entrenamiento mixto. Dieta equilibrada con proteína suficiente."
+  },
+  "Ectomorfo-endomorfo":{
+    icon:"🌕",bg:"#F9FAFB",brd:"#E5E7EB",tc:"#374151",
+    nm:"Ectomorfo-endomorfo",
+    desc:"El endomorfismo y el ectomorfismo son iguales (no difieren en más de 0.5), y el mesomorfismo es menor.",
+    char:"Estructura alargada con tendencia a grasa y poca masa muscular.",
+    sport:"Deportes de resistencia y natación.",
+    rec:"Fuerza para ganar músculo + cardio moderado."
+  }
+};
+
+// ══════════════ CLASSIFY (lógica oficial Carter & Heath) ══════════════
+function classify(en,me,ec){
+  // 1. Central: ningún componente difiere >1 unidad de los otros, y todos entre 2-4
+  var maxV=Math.max(en,me,ec), minV=Math.min(en,me,ec);
+  if(maxV-minV<=1 && minV>=1.5 && maxV<=5) return "Central";
+
+  var enDom = en>me && en>ec;  // endo es el mayor
+  var meDom = me>en && me>ec;  // meso es el mayor
+  var ecDom = ec>en && ec>me;  // ecto es el mayor
+
+  var emEq  = Math.abs(en-me)<=0.5;  // endo ≈ meso
+  var eeEq  = Math.abs(en-ec)<=0.5;  // endo ≈ ecto
+  var meEq  = Math.abs(me-ec)<=0.5;  // meso ≈ ecto
+
+  // ── ENDO dominante ──
+  if(enDom){
+    if(eeEq)  return "Endomorfismo balanceado";   // meso ≈ ecto
+    if(me>ec) return "Endo-mesomórfico";           // meso > ecto
+    return "Endo-ectomórfico";                      // ecto > meso
+  }
+  // ── MESO dominante ──
+  if(meDom){
+    if(emEq)  return "Mesomorfismo balanceado";    // endo ≈ ecto
+    if(en>ec) return "Meso-endomórfico";            // endo > ecto
+    return "Meso-ectomórfico";                       // ecto > endo
+  }
+  // ── ECTO dominante ──
+  if(ecDom){
+    if(meEq)  return "Ectomorfismo balanceado";    // endo ≈ meso
+    if(me>en) return "Ecto-mesomórfico";            // meso > endo
+    return "Ecto-endomórfico";                       // endo > meso
+  }
+  // ── Empates entre dos componentes (con el tercero menor) ──
+  if(emEq && en>=ec && me>=ec) return "Endomorfo-mesomorfo";   // endo=meso > ecto
+  if(meEq && me>=en && ec>=en) return "Ectomorfo-mesomorfo";   // meso=ecto > endo
+  if(eeEq && en>=me && ec>=me) return "Ectomorfo-endomorfo";   // endo=ecto > meso
+
+  // Fallback por el mayor
+  if(en>=me && en>=ec) return en>=me?"Endo-mesomórfico":"Endo-ectomórfico";
+  if(me>=en && me>=ec) return me>=en?"Meso-endomórfico":"Meso-ectomórfico";
+  return ec>=me?"Ecto-mesomórfico":"Ecto-endomórfico";
+}
+
+// ══════════════ CALC ══════════════
+function calc(){
+  var sexo=document.getElementById('sexo').value;
+  var avgs={};Object.keys(pl).forEach(function(k){avgs[k]=avg2(pl[k][0],pl[k][1]);});
+  var aa={};Object.keys(an).forEach(function(k){aa[k]=avg2(an[k][0],an[k][1]);});
+  var peso=aa.peso, est=aa.estatura;
+  var k6=["subescapular","tricipital","musloAnterior","pierna","suprailíaco","abdominal"];
+  var k4=["subescapular","tricipital","suprailíaco","abdominal"];
+  var sum6=k6.every(function(k){return avgs[k]!==null})?k6.reduce(function(s,k){return s+avgs[k]},0):null;
+  var sum4=k4.every(function(k){return avgs[k]!==null})?k4.reduce(function(s,k){return s+avgs[k]},0):null;
+  var gF=sum4!==null?5.783+sum4*0.153:null;
+  var gY=sum6!==null?(sexo==='femenino'?4.56+sum6*0.143:3.64+sum6*0.097):null;
+  var pG=peso&&gF?peso*gF/100:null;
+  var T=est?est/100:null,dEM=aa.dEstiloideo?aa.dEstiloideo/100:null,dBM=aa.dBicondiloFemur?aa.dBicondiloFemur/100:null;
+  var mO=T&&dEM&&dBM?3.02*Math.pow(T*T*dEM*dBM*400,0.712):null;
+  var mR=peso?(sexo==='masculino'?peso*0.241:peso*0.209):null;
+  var mM=peso&&mO&&mR&&pG?peso-mO-mR-pG:null;
+  var ppG=pG&&peso?pG/peso*100:null;
+  var ppM=mM&&peso?mM/peso*100:null;
+  var ppO=mO&&peso?mO/peso*100:null;
+  var ppR=mR&&peso?mR/peso*100:null;
+  var supE=avgs.supraespinal!==null?avgs.supraespinal:avgs["suprailíaco"];
+  var xRaw=avgs.tricipital!==null&&avgs.subescapular!==null&&supE!==null?avgs.tricipital+avgs.subescapular+supE:null;
+  var xC=xRaw&&est?xRaw*170.18/est:null;
+  var endo=xC!==null?-0.7182+0.1451*xC-0.00068*xC*xC+0.0000014*Math.pow(xC,3):null;
+  var U=aa.dBiepicondilarHumero,F=aa.dBicondiloFemur;
+  var B=aa.pBrazoContraido&&avgs.tricipital!==null?aa.pBrazoContraido-avgs.tricipital/10:null;
+  var P=aa.pPierna&&avgs.pierna!==null?aa.pPierna-avgs.pierna/10:null;
+  var meso=U&&F&&B&&P&&est?0.858*U+0.601*F+0.188*B+0.161*P-0.131*est+4.5:null;
+  var IP=peso&&est?est/Math.cbrt(peso):null;
+  var ecto=null;
+  if(IP!==null){if(IP<=38.28)ecto=0.1;else if(IP<40.75)ecto=IP*0.463-17.63;else ecto=IP*0.732-28.58;}
+  var X=ecto!==null&&endo!==null?ecto-endo:null;
+  var Y=meso!==null&&ecto!==null&&endo!==null?2*meso-(ecto+endo):null;
+  var cls=endo!==null&&meso!==null&&ecto!==null?classify(endo,meso,ecto):null;
+
+  lastR={
+    fecha:document.getElementById('fecha').value,
+    nombre:document.getElementById('nombre').value,
+    sexo:sexo,
+    edad:document.getElementById('edad').value,
+    peso:aa.peso,estatura:est,
+    grasaFaulkner:fmt(gF),grasaYuhasz:fmt(gY),pesoGraso:fmt(pG),
+    masaOsea:fmt(mO),masaResidual:fmt(mR),pesoMuscular:fmt(mM),
+    endomorphy:fmt(endo),mesomorphy:fmt(meso),ectomorphy:fmt(ecto),
+    X:fmt(X,3),Y:fmt(Y,3),classification:cls||''
+  };
+
+  // UI update
+  document.getElementById('r-sum6').textContent=fmt(sum6,1);
+  document.getElementById('r-sum4').textContent=fmt(sum4,1);
+  document.getElementById('r-faulkner').textContent=pct(gF);
+  document.getElementById('r-yuhasz').textContent=pct(gY);
+  document.getElementById('r-yuhasz-sub').textContent=sexo==='femenino'?'Mujer (Yuhasz)':'Hombre (Yuhasz)';
+  document.getElementById('r-pgraso').textContent=fmt(pG)+' kg';
+  document.getElementById('r-osea').textContent=fmt(mO)+' kg';
+  document.getElementById('r-resid').textContent=fmt(mR)+' kg';
+  document.getElementById('r-resid-sub').textContent='kg · '+(sexo==='masculino'?'24.1%':'20.9%')+' del peso';
+  document.getElementById('r-musc').textContent=fmt(mM)+' kg';
+  document.getElementById('r-pmusc').textContent=pct(ppM);
+  document.getElementById('r-ip').textContent=fmt(IP,2);
+  document.getElementById('r-endo').textContent=fmt(endo,2);
+  document.getElementById('r-meso').textContent=fmt(meso,2);
+  document.getElementById('r-ecto').textContent=fmt(ecto,2);
+  document.getElementById('r-X').textContent=fmt(X,3);
+  document.getElementById('r-Y').textContent=fmt(Y,3);
+
+  if(pG&&mO&&mR&&mM){
+    document.getElementById('bar-section').classList.remove('hidden');
+    var segs=[{l:'Grasa',v:ppG,c:'#EF4444'},{l:'Muscular',v:ppM,c:'#22C55E'},{l:'Ósea',v:ppO,c:'#F59E0B'},{l:'Residual',v:ppR,c:'#8B5CF6'}];
+    var bar=document.getElementById('compbar');bar.innerHTML='';
+    var leg=document.getElementById('barlegend');leg.innerHTML='';
+    segs.forEach(function(s){
+      var d=document.createElement('div');d.className='bar-seg';d.style.width=s.v.toFixed(1)+'%';d.style.background=s.c;d.title=s.l+': '+s.v.toFixed(1)+'%';d.textContent=s.v>5?s.v.toFixed(1)+'%':'';bar.appendChild(d);
+      var ld=document.createElement('div');ld.className='legend-dot';ld.innerHTML='<div class="dot" style="background:'+s.c+'"></div><span>'+s.l+': <strong>'+s.v.toFixed(1)+'%</strong></span>';leg.appendChild(ld);
+    });
+  }
+
+  var sc=document.getElementById('soma-tag-container');sc.innerHTML='';
+  if(cls){
+    var d=SOMA[cls]||{icon:'❓',bg:'#F3F4F6',brd:'#9CA3AF',tc:'#374151',nm:cls,desc:'',char:'',sport:'',rec:''};
+    sc.innerHTML='<div class="soma-tag" style="background:'+d.bg+';border-color:'+d.brd+';color:'+d.tc+'"><div class="icon">'+d.icon+'</div><div style="flex:1"><div style="display:flex;align-items:center;gap:.6rem;flex-wrap:wrap;margin-bottom:.2rem"><div class="nm">'+d.nm+'</div><span style="font-size:.68rem;font-weight:700;padding:.2rem .6rem;border-radius:20px;background:rgba(0,0,0,.08);letter-spacing:.4px;text-transform:uppercase">Grupo: '+d.nm+'</span></div><div class="txt">'+d.desc+'</div>'+(endo?'<div class="soma-vals">'+endo.toFixed(1)+' — '+meso.toFixed(1)+' — '+ecto.toFixed(1)+'<span>Endo — Meso — Ecto</span></div>':'')+'</div></div>';
+    var ic=document.getElementById('info-cards');ic.innerHTML='';
+    [{icon:'🎯',title:'Características',txt:d.char,c:'#3B82F6'},{icon:'🏅',title:'Deportes afines',txt:d.sport,c:'#16A34A'},{icon:'💡',title:'Recomendación',txt:d.rec,c:'#F59E0B'}].forEach(function(cc){
+      var div=document.createElement('div');div.className='ic';div.style.borderLeftColor=cc.c;div.innerHTML='<div class="ic-title">'+cc.icon+' '+cc.title+'</div><div class="ic-txt">'+cc.txt+'</div>';ic.appendChild(div);
+    });
+  }
+  drawChart(X,Y,document.getElementById('nombre').value||null,cls);
+}
+
+// ══════════════ SOMATOCHART ══════════════
+function drawChart(X,Y,name,cls){
+  var c=document.getElementById('somaCanvas');if(!c)return;
+  var ctx=c.getContext('2d');
+  var W=460,H=510,cx=W/2,cy=Math.round(H*0.62),sc=24;
+  ctx.clearRect(0,0,W,H);ctx.fillStyle='#FAFAFA';ctx.fillRect(0,0,W,H);
+
+  // Grid
+  ctx.strokeStyle='#E5E7EB';ctx.lineWidth=1;
+  for(var i=-9;i<=9;i++){ctx.beginPath();ctx.moveTo(cx+i*sc,12);ctx.lineTo(cx+i*sc,H-12);ctx.stroke();}
+  for(var j=-7;j<=13;j++){ctx.beginPath();ctx.moveTo(12,cy-j*sc);ctx.lineTo(W-12,cy-j*sc);ctx.stroke();}
+
+  // Ellipse
+  ctx.strokeStyle='#CBD5E1';ctx.lineWidth=1.5;ctx.setLineDash([7,4]);
+  ctx.beginPath();ctx.ellipse(cx,cy-3.5*sc,7.5*sc,9*sc,0,0,2*Math.PI);ctx.stroke();ctx.setLineDash([]);
+
+  // Axes
+  ctx.strokeStyle='#475569';ctx.lineWidth=2;
+  ctx.beginPath();ctx.moveTo(14,cy);ctx.lineTo(W-14,cy);ctx.stroke();
+  ctx.beginPath();ctx.moveTo(cx,12);ctx.lineTo(cx,H-12);ctx.stroke();
+
+  // Axis numbers
+  ctx.font='10px DM Mono,monospace';ctx.fillStyle='#9CA3AF';ctx.textAlign='center';
+  for(var ii=-8;ii<=8;ii+=2){if(ii===0)continue;ctx.fillText(ii,cx+ii*sc,cy+16);}
+  ctx.textAlign='right';
+  for(var jj=2;jj<=12;jj+=2){ctx.fillText(jj,cx-7,cy-jj*sc+4);}
+  ctx.fillText('0',cx-6,cy+4);
+
+  // Axis labels
+  ctx.font='bold 11px DM Sans,system-ui';
+  ctx.fillStyle='#DC2626';ctx.textAlign='left';ctx.fillText('← ENDO',16,cy-8);
+  ctx.fillStyle='#2563EB';ctx.textAlign='right';ctx.fillText('ECTO →',W-16,cy-8);
+  ctx.fillStyle='#16A34A';ctx.textAlign='center';ctx.fillText('MESO ↑',cx,20);
+
+  // ── Zone labels (13 tipos) ──
+  ctx.font='8.5px DM Sans,system-ui';ctx.textAlign='center';
+  // Each entry: [label lines, px, py, color]
+  var zones=[
+    // Central
+    [['Central'],              cx,      cy-sc*1.4,  '#6B7280'],
+    // ENDO side (left)
+    [['Endomorfismo','balanceado'], cx-sc*4.8, cy-sc*0.5,  '#B91C1C'],
+    [['Endo-ecto\nmórfico'],   cx-sc*6.2, cy+sc*1.8,  '#D97706'],
+    [['Endo-meso\nmórfico'],   cx-sc*4.5, cy-sc*3.6,  '#C2410C'],
+    [['Endomorfo-\nmesomorfo'],cx-sc*2.8, cy-sc*5.8,  '#B45309'],
+    // MESO top
+    [['Mesomorfismo','balanceado'], cx,  cy-sc*7.8,  '#15803D'],
+    [['Meso-endo\nmórfico'],   cx-sc*2.6, cy-sc*6.2, '#065F46'],
+    [['Meso-ecto\nmórfico'],   cx+sc*2.6, cy-sc*6.2, '#1D4ED8'],
+    // ECTO side (right)
+    [['Ectomorfismo','balanceado'], cx+sc*4.8, cy-sc*0.5, '#1D4ED8'],
+    [['Ecto-endo\nmórfico'],   cx+sc*6.2, cy+sc*1.8,  '#4B5563'],
+    [['Ecto-meso\nmórfico'],   cx+sc*4.5, cy-sc*3.6,  '#4338CA'],
+    [['Ectomorfo-\nmesomorfo'],cx+sc*2.8, cy-sc*5.8,  '#6D28D9'],
+    // Bottom equates
+    [['Ectomorfo-\nendomorfo'],cx,         cy+sc*1.1,  '#78716C'],
+  ];
+
+  zones.forEach(function(z){
+    var lines=z[0][0].split('\n');
+    if(z[0].length>1) lines=z[0]; // pre-split array
+    var px=z[1],py=z[2],color=z[3];
+
+    // Highlight the current classification zone
+    var zoneName = z[0].join(' ').replace(/\n/g,' ').replace(/\s+/g,' ').trim();
+    var isActive = cls && SOMA[cls] && (
+      SOMA[cls].nm.replace(/\s+/g,' ').toLowerCase() === zoneName.toLowerCase()
+    );
+
+    if(isActive){
+      ctx.save();
+      ctx.globalAlpha=0.13;
+      ctx.fillStyle=color;
+      ctx.beginPath();ctx.arc(px,py,sc*1.1,0,2*Math.PI);ctx.fill();
+      ctx.globalAlpha=1;
+      ctx.restore();
+      ctx.font='bold 8.5px DM Sans,system-ui';
+    } else {
+      ctx.font='8.5px DM Sans,system-ui';
+    }
+    ctx.fillStyle=isActive?color:'rgba(100,116,139,0.75)';
+    lines.forEach(function(l,i){ctx.fillText(l,px,py+i*11);});
+    ctx.font='8.5px DM Sans,system-ui'; // reset
+  });
+
+  // Point
+  if(X!==null&&Y!==null&&!isNaN(X)&&!isNaN(Y)){
+    var px=cx+X*sc,py=cy-Y*sc;
+    ctx.strokeStyle='rgba(239,68,68,.2)';ctx.lineWidth=1;ctx.setLineDash([4,4]);
+    ctx.beginPath();ctx.moveTo(px,12);ctx.lineTo(px,H-12);ctx.stroke();
+    ctx.beginPath();ctx.moveTo(12,py);ctx.lineTo(W-12,py);ctx.stroke();ctx.setLineDash([]);
+    var g=ctx.createRadialGradient(px,py,2,px,py,22);g.addColorStop(0,'rgba(239,68,68,.45)');g.addColorStop(1,'rgba(239,68,68,0)');
+    ctx.fillStyle=g;ctx.beginPath();ctx.arc(px,py,22,0,2*Math.PI);ctx.fill();
+    ctx.fillStyle='#EF4444';ctx.strokeStyle='#fff';ctx.lineWidth=2.5;
+    ctx.beginPath();ctx.arc(px,py,8,0,2*Math.PI);ctx.fill();ctx.stroke();
+    var lx=px>cx?px-14:px+14;ctx.textAlign=px>cx?'right':'left';
+    ctx.font='bold 12px DM Mono,monospace';ctx.fillStyle='#1E293B';
+    ctx.fillText('('+X.toFixed(2)+', '+Y.toFixed(2)+')',lx,py-14);
+    if(name){ctx.font='11px DM Sans,system-ui';ctx.fillStyle='#64748B';ctx.fillText(name,lx,py-28);}
+  }
+}
+
+// ══════════════ TABS ══════════════
+function showTab(id,btn){
+  ['pliegues','diametros','perimetros'].forEach(function(t){document.getElementById('tab-'+t).classList.add('hidden');});
+  document.getElementById('tab-'+id).classList.remove('hidden');
+  document.querySelectorAll('.tab').forEach(function(b){b.classList.remove('active');});
+  btn.classList.add('active');
+}
+
+// ══════════════ INIT ══════════════
+document.getElementById('fecha').value=new Date().toISOString().split('T')[0];
+bindTableRows();
+drawChart(null,null,null,null);
+refreshUrlDisplay();
+</script>
+</body>
+</html>
