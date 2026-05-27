@@ -377,7 +377,8 @@
   "Fecha","Nombre","Sexo","Edad",
   "Peso_t1(kg)","Peso_t2(kg)","Peso(kg)",
   "Estatura_t1(cm)","Estatura_t2(cm)","Estatura(cm)",
-  // Pliegues mm — toma1, toma2, promedio
+
+  // Pliegues mm — toma1, toma2
   "Subescapular_t1","Subescapular_t2",
   "Tricipital_t1","Tricipital_t2",
   "MusloAnterior_t1","MusloAnterior_t2",
@@ -385,13 +386,16 @@
   "Suprailiaco_t1","Suprailiaco_t2",
   "Abdominal_t1","Abdominal_t2",
   "Supraespinal_t1","Supraespinal_t2",
-  // Diámetros cm
+
+  // Diámetros
   "dEstiloideo_t1","dEstiloideo_t2",
   "dBicondiloFemur_t1","dBicondiloFemur_t2",
   "dBiepicondilarH_t1","dBiepicondilarH_t2",
-  // Perímetros cm
+
+  // Perímetros
   "pBrazo_t1","pBrazo_t2",
   "pPierna_t1","pPierna_t2",
+
   // Resultados
   "%Grasa Faulkner","%Grasa Yuhasz","Peso Graso(kg)",
   "Masa Ósea(kg)","Masa Residual(kg)","Peso Muscular(kg)",
@@ -399,87 +403,216 @@
   "X soma","Y soma","Somatotipo"
 ];
 
-// Devuelve JSON normal o JSONP según el parámetro ?callback=
-// Esto resuelve el bloqueo de CORS desde GitHub Pages / incógnito.
+// ==========================================
+// RESPUESTA JSON / JSONP
+// ==========================================
 function respond(data, callback) {
+
   var json = JSON.stringify(data);
+
+  // JSONP (evita problemas CORS)
   if (callback) {
     return ContentService
       .createTextOutput(callback + '(' + json + ')')
       .setMimeType(ContentService.MimeType.JAVASCRIPT);
   }
+
+  // JSON normal
   return ContentService
     .createTextOutput(json)
     .setMimeType(ContentService.MimeType.JSON);
 }
 
+// ==========================================
+// POST
+// ==========================================
 function doPost(e) {
+
   try {
+
     var d = JSON.parse(e.postData.contents);
-    var s = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
-    if (s.getLastRow() === 0) s.appendRow(HEADERS);
 
+    var s = SpreadsheetApp
+      .getActiveSpreadsheet()
+      .getActiveSheet();
+
+    // Crear encabezados si no existen
+    if (s.getLastRow() === 0) {
+      s.appendRow(HEADERS);
+    }
+
+    // ==========================
+    // ACTUALIZAR
+    // ==========================
     if (d.action === 'update' && d._row) {
+
       var row = d._row;
-      s.getRange(row, 1).setValue(d.fecha||'');
-      s.getRange(row, 2).setValue(d.nombre||'');
-      s.getRange(row, 3).setValue(d.sexo||'');
-      s.getRange(row, 4).setValue(d.edad||'');
-      return respond({status:"ok"}, null);
+
+      s.getRange(row,1).setValue(d.fecha || '');
+      s.getRange(row,2).setValue(d.nombre || '');
+      s.getRange(row,3).setValue(d.sexo || '');
+      s.getRange(row,4).setValue(d.edad || '');
+
+      return respond({
+        status:"ok",
+        message:"Registro actualizado"
+      }, null);
     }
 
+    // ==========================
+    // ELIMINAR
+    // ==========================
     if (d.action === 'delete' && d._row) {
+
       s.deleteRow(d._row);
-      return respond({status:"ok"}, null);
+
+      return respond({
+        status:"ok",
+        message:"Registro eliminado"
+      }, null);
     }
 
+    // ==========================
+    // GUARDAR
+    // ==========================
     s.appendRow([
-      d.fecha, d.nombre, d.sexo, d.edad,
-      d.an_peso_t1, d.an_peso_t2, d.peso,
-      d.an_estatura_t1, d.an_estatura_t2, d.estatura,
-      d.pl_subescapular_t1, d.pl_subescapular_t2,
-      d.pl_tricipital_t1, d.pl_tricipital_t2,
-      d.pl_musloAnterior_t1, d.pl_musloAnterior_t2,
-      d.pl_pierna_t1, d.pl_pierna_t2,
-      d.pl_suprailiaco_t1, d.pl_suprailiaco_t2,
-      d.pl_abdominal_t1, d.pl_abdominal_t2,
-      d.pl_supraespinal_t1, d.pl_supraespinal_t2,
-      d.an_dEstiloideo_t1, d.an_dEstiloideo_t2,
-      d.an_dBicondiloFemur_t1, d.an_dBicondiloFemur_t2,
-      d.an_dBiepicondilarH_t1, d.an_dBiepicondilarH_t2,
-      d.an_pBrazo_t1, d.an_pBrazo_t2,
-      d.an_pPierna_t1, d.an_pPierna_t2,
-      d.grasaFaulkner, d.grasaYuhasz, d.pesoGraso,
-      d.masaOsea, d.masaResidual, d.pesoMuscular,
-      d.endomorphy, d.mesomorphy, d.ectomorphy,
-      d.X, d.Y, d.classification
+
+      d.fecha,
+      d.nombre,
+      d.sexo,
+      d.edad,
+
+      d.an_peso_t1,
+      d.an_peso_t2,
+      d.peso,
+
+      d.an_estatura_t1,
+      d.an_estatura_t2,
+      d.estatura,
+
+      d.pl_subescapular_t1,
+      d.pl_subescapular_t2,
+
+      d.pl_tricipital_t1,
+      d.pl_tricipital_t2,
+
+      d.pl_musloAnterior_t1,
+      d.pl_musloAnterior_t2,
+
+      d.pl_pierna_t1,
+      d.pl_pierna_t2,
+
+      d.pl_suprailiaco_t1,
+      d.pl_suprailiaco_t2,
+
+      d.pl_abdominal_t1,
+      d.pl_abdominal_t2,
+
+      d.pl_supraespinal_t1,
+      d.pl_supraespinal_t2,
+
+      d.an_dEstiloideo_t1,
+      d.an_dEstiloideo_t2,
+
+      d.an_dBicondiloFemur_t1,
+      d.an_dBicondiloFemur_t2,
+
+      d.an_dBiepicondilarH_t1,
+      d.an_dBiepicondilarH_t2,
+
+      d.an_pBrazo_t1,
+      d.an_pBrazo_t2,
+
+      d.an_pPierna_t1,
+      d.an_pPierna_t2,
+
+      d.grasaFaulkner,
+      d.grasaYuhasz,
+      d.pesoGraso,
+
+      d.masaOsea,
+      d.masaResidual,
+      d.pesoMuscular,
+
+      d.endomorphy,
+      d.mesomorphy,
+      d.ectomorphy,
+
+      d.X,
+      d.Y,
+      d.classification
     ]);
-    return respond({status:"ok"}, null);
+
+    return respond({
+      status:"ok",
+      message:"Registro guardado"
+    }, null);
+
   } catch(err) {
-    return respond({status:"error",message:err.message}, null);
+
+    return respond({
+      status:"error",
+      message:err.message
+    }, null);
   }
 }
 
+// ==========================================
+// GET
+// ==========================================
 function doGet(e) {
-  var action   = e && e.parameter && e.parameter.action;
-  var callback = e && e.parameter && e.parameter.callback; // JSONP callback
-  var s = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
 
+  var action   = e.parameter.action || '';
+  var callback = e.parameter.callback;
+
+  var s = SpreadsheetApp
+    .getActiveSpreadsheet()
+    .getActiveSheet();
+
+  // ==========================
+  // PING
+  // ==========================
   if (action === 'ping') {
-    return respond({status:"ok",message:"Conectado"}, callback);
+
+    return respond({
+      status:"ok",
+      pong:true,
+      message:"Conectado correctamente"
+    }, callback);
   }
 
+  // ==========================
+  // OBTENER DATOS
+  // ==========================
   var rows = s.getDataRange().getValues();
-  if (rows.length <= 1)
-    return respond({status:"ok",data:[]}, callback);
+
+  if (rows.length <= 1) {
+
+    return respond({
+      status:"ok",
+      data:[]
+    }, callback);
+  }
 
   var headers = rows[0];
-  var data = rows.slice(1).map(function(r,i){
-    var obj = {_row: i+2};
-    headers.forEach(function(h,j){ obj[h] = r[j]; });
+
+  var data = rows.slice(1).map(function(r, i){
+
+    var obj = {
+      _row: i + 2
+    };
+
+    headers.forEach(function(h, j){
+      obj[h] = r[j];
+    });
+
     return obj;
   });
-  return respond({status:"ok",data:data}, callback);
+
+  return respond({
+    status:"ok",
+    data:data
+  }, callback);
 }</pre>
     <ol start="4">
       <li>Guarda (<strong>Ctrl+S</strong>) y asígnale un nombre al proyecto.</li>
